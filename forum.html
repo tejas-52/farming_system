@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Farming Community Forum | Smart Farming System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="forum.css">
+</head>
+<body>
+    <!-- Main Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span class="logo-text">SmartFarm</span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="crops.html" class="nav-link">
+                        <i class="fas fa-leaf"></i>
+                        <span>Crops</span>
+                    </a>
+                    <a href="weather.html" class="nav-link">
+                        <i class="fas fa-cloud-sun"></i>
+                        <span>Weather</span>
+                    </a>
+                    <a href="marketplace.html" class="nav-link">
+                        <i class="fas fa-store"></i>
+                        <span>Marketplace</span>
+                    </a>
+                    <a href="forum.html" class="nav-link active">
+                        <i class="fas fa-users"></i>
+                        <span>Community</span>
+                    </a>
+                    <a href="dashboard.php" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+
+                <!-- Header Right Section -->
+                <div class="header-right">
+                    <!-- Language Selector -->
+                    <div class="language-selector" id="languageSelector">
+                        <button class="language-btn" onclick="toggleLanguageDropdown()">
+                            <i class="fas fa-language"></i>
+                            <span id="currentLanguage">EN</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="language-dropdown" id="languageDropdown">
+                            <div class="language-option" onclick="changeLanguage('en')">
+                                <span class="flag-icon">🇺🇸</span>
+                                <span>English</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                            <div class="language-option" onclick="changeLanguage('mr')">
+                                <span class="flag-icon">🇮🇳</span>
+                                <span>मराठी</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                            <div class="language-option" onclick="changeLanguage('hi')">
+                                <span class="flag-icon">🇮🇳</span>
+                                <span>हिन्दी</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                            <div class="language-option" onclick="changeLanguage('ta')">
+                                <span class="flag-icon">🇮🇳</span>
+                                <span>தமிழ்</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Google Translate (Hidden) -->
+                    <div id="google_translate_element" style="display: none;"></div>
+
+                    <!-- Auth Buttons -->
+                    <div class="auth-buttons" id="authButtons">
+                        <a href="login.html" class="btn btn-outline btn-sm">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </a>
+                        <a href="register.html" class="btn btn-primary btn-sm">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Sign Up</span>
+                        </a>
+                    </div>
+
+                    <!-- User Profile (When Logged In) -->
+                    <div class="user-profile" id="userProfile" style="display: none;">
+                        <div class="user-dropdown" onclick="toggleUserDropdown()">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span class="user-name">John Doe</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="user-dropdown-menu" id="userDropdown">
+                            <a href="profile.php" class="dropdown-item">
+                                <i class="fas fa-user"></i> My Profile
+                            </a>
+                            <a href="dashboard.php" class="dropdown-item">
+                                <i class="fas fa-chart-line"></i> Dashboard
+                            </a>
+                            <a href="my-posts.html" class="dropdown-item">
+                                <i class="fas fa-comments"></i> My Posts
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>SmartFarm</span>
+            </div>
+            <button class="close-menu" id="closeMenuBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-menu-links">
+            <a href="index.html" class="mobile-nav-link">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="crops.html" class="mobile-nav-link">
+                <i class="fas fa-leaf"></i> Crops
+            </a>
+            <a href="weather.html" class="mobile-nav-link">
+                <i class="fas fa-cloud-sun"></i> Weather
+            </a>
+            <a href="marketplace.html" class="mobile-nav-link">
+                <i class="fas fa-store"></i> Marketplace
+            </a>
+            <a href="forum.html" class="mobile-nav-link active">
+                <i class="fas fa-users"></i> Community
+            </a>
+            <a href="dashboard.php" class="mobile-nav-link">
+                <i class="fas fa-chart-line"></i> Dashboard
+            </a>
+            
+            <!-- Mobile Language Selector -->
+            <div class="mobile-language-selector">
+                <h4>Select Language</h4>
+                <div class="mobile-language-options">
+                    <button class="mobile-lang-btn active" onclick="changeLanguage('en')">
+                        <span class="flag-icon">🇺🇸</span> English
+                    </button>
+                    <button class="mobile-lang-btn" onclick="changeLanguage('mr')">
+                        <span class="flag-icon">🇮🇳</span> मराठी
+                    </button>
+                    <button class="mobile-lang-btn" onclick="changeLanguage('hi')">
+                        <span class="flag-icon">🇮🇳</span> हिन्दी
+                    </button>
+                    <button class="mobile-lang-btn" onclick="changeLanguage('ta')">
+                        <span class="flag-icon">🇮🇳</span> தமிழ்
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Auth Buttons -->
+            <div class="mobile-auth-buttons">
+                <a href="login.html" class="btn btn-outline">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+                <a href="register.html" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <section class="forum-header">
+        <div class="container">
+            <div class="header-content">
+                <h1>Farming Community Forum</h1>
+                <p>Connect, share, and learn from fellow farmers across India</p>
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Community Forum</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Forum Stats -->
+    <section class="forum-stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>5,280+</h3>
+                        <p>Total Discussions</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>3,450+</h3>
+                        <p>Active Members</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>12,850+</h3>
+                        <p>Solutions Shared</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>98%</h3>
+                        <p>Problem Resolution</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Forum Content -->
+    <section class="forum-main">
+        <div class="container">
+            <div class="forum-layout">
+                <!-- Sidebar -->
+                <aside class="forum-sidebar">
+                    <!-- Create Post Button -->
+                    <div class="create-post-card">
+                        <h3>Start a Discussion</h3>
+                        <p>Share your farming questions, experiences, or advice with the community</p>
+                        <button class="btn btn-primary btn-block" onclick="openCreatePostModal()">
+                            <i class="fas fa-plus"></i> Create New Post
+                        </button>
+                    </div>
+                    
+                    <!-- Categories -->
+                    <div class="categories-card">
+                        <h3>Categories</h3>
+                        <ul class="category-list">
+                            <li class="category-item active" onclick="filterByCategory('all')">
+                                <div class="category-info">
+                                    <i class="fas fa-th-large"></i>
+                                    <span>All Topics</span>
+                                </div>
+                                <span class="category-count">128</span>
+                            </li>
+                            <li class="category-item" onclick="filterByCategory('crops')">
+                                <div class="category-info">
+                                    <i class="fas fa-leaf"></i>
+                                    <span>Crop Cultivation</span>
+                                </div>
+                                <span class="category-count">45</span>
+                            </li>
+                            <li class="category-item" onclick="filterByCategory('pests')">
+                                <div class="category-info">
+                                    <i class="fas fa-bug"></i>
+                                    <span>Pests & Diseases</span>
+                                </div>
+                                <span class="category-count">32</span>
+                            </li>
+                            <li class="category-item" onclick="filterByCategory('soil')">
+                                <div class="category-info">
+                                    <i class="fas fa-flask"></i>
+                                    <span>Soil & Fertilizers</span>
+                                </div>
+                                <span class="category-count">28</span>
+                            </li>
+                            <li class="category-item" onclick="filterByCategory('weather')">
+                                <div class="category-info">
+                                    <i class="fas fa-cloud-sun"></i>
+                                    <span>Weather & Irrigation</span>
+                                </div>
+                                <span class="category-count">15</span>
+                            </li>
+                            <li class="category-item" onclick="filterByCategory('market')">
+                                <div class="category-info">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Market & Prices</span>
+                                </div>
+                                <span class="category-count">20</span>
+                            </li>
+                            <li class="category-item" onclick="filterByCategory('equipment')">
+                                <div class="category-info">
+                                    <i class="fas fa-tractor"></i>
+                                    <span>Equipment & Tools</span>
+                                </div>
+                                <span class="category-count">18</span>
+                            </li>
+                            <li class="category-item" onclick="filterByCategory('organic')">
+                                <div class="category-info">
+                                    <i class="fas fa-seedling"></i>
+                                    <span>Organic Farming</span>
+                                </div>
+                                <span class="category-count">25</span>
+                            </li>
+                            <li class="category-item" onclick="filterByCategory('success')">
+                                <div class="category-info">
+                                    <i class="fas fa-trophy"></i>
+                                    <span>Success Stories</span>
+                                </div>
+                                <span class="category-count">42</span>
+                            </li>
+                            <li class="category-item" onclick="filterByCategory('help')">
+                                <div class="category-info">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>Help & Support</span>
+                                </div>
+                                <span class="category-count">12</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Trending Topics -->
+                    <div class="trending-card">
+                        <h3>Trending Topics</h3>
+                        <ul class="trending-list">
+                            <li>
+                                <a href="#" class="trending-topic">
+                                    <span class="topic-title">Best organic pesticides for tomatoes</span>
+                                    <span class="topic-stats">🔥 245 views</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="trending-topic">
+                                    <span class="topic-title">Crop rotation for better yield</span>
+                                    <span class="topic-stats">🔥 189 views</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="trending-topic">
+                                    <span class="topic-title">Drip irrigation vs sprinkler system</span>
+                                    <span class="topic-stats">🔥 156 views</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="trending-topic">
+                                    <span class="topic-title">Government subsidies for farmers</span>
+                                    <span class="topic-stats">🔥 210 views</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Community Guidelines -->
+                    <div class="guidelines-card">
+                        <h3>Community Guidelines</h3>
+                        <ul class="guidelines-list">
+                            <li><i class="fas fa-check-circle"></i> Be respectful to all members</li>
+                            <li><i class="fas fa-check-circle"></i> Share genuine experiences</li>
+                            <li><i class="fas fa-check-circle"></i> No promotional content</li>
+                            <li><i class="fas fa-check-circle"></i> Provide helpful solutions</li>
+                            <li><i class="fas fa-check-circle"></i> Report inappropriate content</li>
+                        </ul>
+                    </div>
+                </aside>
+                
+                <!-- Main Content -->
+                <main class="forum-content">
+                    <!-- Forum Controls -->
+                    <div class="forum-controls">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="forumSearch" placeholder="Search discussions...">
+                            <button class="btn btn-primary" onclick="searchDiscussions()">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                        
+                        <div class="view-controls">
+                            <div class="sort-options">
+                                <span>Sort by:</span>
+                                <select id="sortDiscussions" onchange="sortDiscussions()">
+                                    <option value="latest">Latest</option>
+                                    <option value="popular">Most Popular</option>
+                                    <option value="trending">Trending</option>
+                                    <option value="unanswered">Unanswered</option>
+                                </select>
+                            </div>
+                            
+                            <div class="view-toggle">
+                                <button class="view-btn active" onclick="changeView('list')">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                                <button class="view-btn" onclick="changeView('grid')">
+                                    <i class="fas fa-th-large"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Active Members -->
+                    <div class="active-members">
+                        <h3>Currently Online</h3>
+                        <div class="members-list">
+                            <div class="member-avatar" title="Rajesh Kumar">
+                                <img src="https://images.unsplash.com/photo-1586773860418-dc22f8b874bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Rajesh">
+                                <span class="online-dot"></span>
+                            </div>
+                            <div class="member-avatar" title="Priya Sharma">
+                                <img src="https://images.unsplash.com/photo-1494790108755-2616b786d4d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Priya">
+                                <span class="online-dot"></span>
+                            </div>
+                            <div class="member-avatar" title="Amit Patel">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Amit">
+                                <span class="online-dot"></span>
+                            </div>
+                            <div class="member-avatar" title="Anjali Mehta">
+                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Anjali">
+                                <span class="online-dot"></span>
+                            </div>
+                            <div class="member-avatar" title="Suresh Reddy">
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Suresh">
+                                <span class="online-dot"></span>
+                            </div>
+                            <div class="member-avatar" title="Meena Devi">
+                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Meena">
+                                <span class="online-dot"></span>
+                            </div>
+                            <div class="member-count">
+                                <span>+42 more</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Discussions List -->
+                    <div class="discussions-container" id="discussionsContainer">
+                        <!-- Discussion 1 -->
+                        <div class="discussion-card" data-category="pests" data-views="245" data-replies="18" data-date="2024-12-03">
+                            <div class="discussion-header">
+                                <div class="discussion-status">
+                                    <span class="status-badge solved">
+                                        <i class="fas fa-check-circle"></i> Solved
+                                    </span>
+                                    <span class="category-badge">Pests & Diseases</span>
+                                </div>
+                                <div class="discussion-meta">
+                                    <span class="discussion-time">
+                                        <i class="far fa-clock"></i> 2 hours ago
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="discussion-body">
+                                <h3 class="discussion-title">
+                                    <a href="discussion-detail.html">How to control whiteflies in tomato plants?</a>
+                                </h3>
+                                <p class="discussion-excerpt">
+                                    I'm noticing whiteflies infestation in my tomato crop. Tried neem oil but not effective. Looking for organic solutions that really work...
+                                </p>
+                                
+                                <div class="discussion-tags">
+                                    <span class="tag">tomato</span>
+                                    <span class="tag">whiteflies</span>
+                                    <span class="tag">organic-pesticides</span>
+                                    <span class="tag">pest-control</span>
+                                </div>
+                            </div>
+                            
+                            <div class="discussion-footer">
+                                <div class="discussion-author">
+                                    <div class="author-avatar">
+                                        <img src="https://images.unsplash.com/photo-1586773860418-dc22f8b874bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Rajesh Kumar">
+                                    </div>
+                                    <div class="author-info">
+                                        <span class="author-name">Rajesh Kumar</span>
+                                        <span class="author-role">Organic Farmer</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="discussion-stats">
+                                    <div class="stat">
+                                        <i class="far fa-eye"></i>
+                                        <span>245 views</span>
+                                    </div>
+                                    <div class="stat">
+                                        <i class="far fa-comment"></i>
+                                        <span>18 replies</span>
+                                    </div>
+                                    <div class="stat">
+                                        <i class="far fa-heart"></i>
+                                        <span>42 likes</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Discussion 2 -->
+                        <div class="discussion-card" data-category="soil" data-views="189" data-replies="12" data-date="2024-12-02">
+                            <div class="discussion-header">
+                                <div class="discussion-status">
+                                    <span class="status-badge active">
+                                        <i class="fas fa-comments"></i> Active
+                                    </span>
+                                    <span class="category-badge">Soil & Fertilizers</span>
+                                </div>
+                                <div class="discussion-meta">
+                                    <span class="discussion-time">
+                                        <i class="far fa-clock"></i> 1 day ago
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="discussion-body">
+                                <h3 class="discussion-title">
+                                    <a href="discussion-detail.html">Best organic fertilizer for clay soil</a>
+                                </h3>
+                                <p class="discussion-excerpt">
+                                    My farm has heavy clay soil. What organic fertilizers work best to improve soil structure and nutrient availability? Looking for experienced advice...
+                                </p>
+                                
+                                <div class="discussion-tags">
+                                    <span class="tag">clay-soil</span>
+                                    <span class="tag">organic-fertilizer</span>
+                                    <span class="tag">soil-improvement</span>
+                                    <span class="tag">compost</span>
+                                </div>
+                            </div>
+                            
+                            <div class="discussion-footer">
+                                <div class="discussion-author">
+                                    <div class="author-avatar">
+                                        <img src="https://images.unsplash.com/photo-1494790108755-2616b786d4d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Priya Sharma">
+                                    </div>
+                                    <div class="author-info">
+                                        <span class="author-name">Priya Sharma</span>
+                                        <span class="author-role">Grain Farmer</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="discussion-stats">
+                                    <div class="stat">
+                                        <i class="far fa-eye"></i>
+                                        <span>189 views</span>
+                                    </div>
+                                    <div class="stat">
+                                        <i class="far fa-comment"></i>
+                                        <span>12 replies</span>
+                                    </div>
+                                    <div class="stat">
+                                        <i class="far fa-heart"></i>
+                                        <span>28 likes</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Discussion 3 -->
+                        <div class="discussion-card" data-category="market" data-views="310" data-replies="25" data-date="2024-12-01">
+                            <div class="discussion-header">
+                                <div class="discussion-status">
+                                    <span class="status-badge hot">
+                                        <i class="fas fa-fire"></i> Hot Topic
+                                    </span>
+                                    <span class="category-badge">Market & Prices</span>
+                                </div>
+                                <div class="discussion-meta">
+                                    <span class="discussion-time">
+                                        <i class="far fa-clock"></i> 2 days ago
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="discussion-body">
+                                <h3 class="discussion-title">
+                                    <a href="discussion-detail.html">Current onion prices and market trends</a>
+                                </h3>
+                                <p class="discussion-excerpt">
+                                    What are the current wholesale prices for onions in different states? When is the best time to sell for maximum profit this season?
+                                </p>
+                                
+                                <div class="discussion-tags">
+                                    <span class="tag">onion-prices</span>
+                                    <span class="tag">market-trends</span>
+                                    <span class="tag">wholesale</span>
+                                    <span class="tag">profit-maximization</span>
+                                </div>
+                            </div>
+                            
+                            <div class="discussion-footer">
+                                <div class="discussion-author">
+                                    <div class="author-avatar">
+                                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Amit Patel">
+                                    </div>
+                                    <div class="author-info">
+                                        <span class="author-name">Amit Patel</span>
+                                        <span class="author-role">Vegetable Trader</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="discussion-stats">
+                                    <div class="stat">
+                                        <i class="far fa-eye"></i>
+                                        <span>310 views</span>
+                                    </div>
+                                    <div class="stat">
+                                        <i class="far fa-comment"></i>
+                                        <span>25 replies</span>
+                                    </div>
+                                    <div class="stat">
+                                        <i class="far fa-heart"></i>
+                                        <span>56 likes</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Discussion 4 -->
+                        <div class="discussion-card" data-category="crops" data-views="156" data-replies="8" data-date="2024-11-30">
+                            <div class="discussion-header">
+                                <div class="discussion-status">
+                                    <span class="status-badge new">
+                                        <i class="fas fa-star"></i> New
+                                    </span>
+                                    <span class="category-badge">Crop Cultivation</span>
+                                </div>
+                                <div class="discussion-meta">
+                                    <span class="discussion-time">
+                                        <i class="far fa-clock"></i> 3 days ago
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="discussion-body">
+                                <h3 class="discussion-title">
+                                    <a href="discussion-detail.html">Intercropping vegetables for small farms</a>
+                                </h3>
+                                <p class="discussion-excerpt">
+                                    I have a small 2-acre farm. What are the best vegetable combinations for intercropping to maximize space and yield? Looking for practical examples...
+                                </p>
+                                
+                                <div class="discussion-tags">
+                                    <span class="tag">intercropping</span>
+                                    <span class="tag">vegetables</span>
+                                    <span class="tag">small-farm</span>
+                                    <span class="tag">yield-optimization</span>
+                                </div>
+                            </div>
+                            
+                            <div class="discussion-footer">
+                                <div class="discussion-author">
+                                    <div class="author-avatar">
+                                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Anjali Mehta">
+                                    </div>
+                                    <div class="author-info">
+                                        <span class="author-name">Anjali Mehta</span>
+                                        <span class="author-role">Small Farmer</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="discussion-stats">
+                                    <div class="stat">
+                                        <i class="far fa-eye"></i>
+                                        <span>156 views</span>
+                                    </div>
+                                    <div class="stat">
+                                        <i class="far fa-comment"></i>
+                                        <span>8 replies</span>
+                                    </div>
+                                    <div class="stat">
+                                        <i class="far fa-heart"></i>
+                                        <span>32 likes</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Discussion 5 -->
+                        <div class="discussion-card" data-category="equipment" data-views="128" data-replies="6" data-date="2024-11-29">
+                            <div class="discussion-header">
+                                <div class="discussion-status">
+                                    <span class="status-badge unanswered">
+                                        <i class="fas fa-question-circle"></i> Unanswered
+                                    </span>
+                                    <span class="category-badge">Equipment & Tools</span>
+                                </div>
+                                <div class="discussion-meta">
+                                    <span class="discussion-time">
+                                        <i class="far fa-clock"></i> 4 days ago
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="discussion-body">
+                                <h3 class="discussion-title">
+                                    <a href="discussion-detail.html">Choosing between drip and sprinkler irrigation</a>
+                                </h3>
+                                <p class="discussion-excerpt">
+                                    Planning to install irrigation system for my 5-acre vegetable farm. Which is more cost-effective and efficient for mixed vegetable cultivation?
+                                </p>
+                                
+                                <div class="discussion-tags">
+                                    <span class="tag">irrigation</span>
+                                    <span class="tag">drip-system</span>
+                                    <span class="tag">sprinkler</span>
+                                    <span class="tag">water-efficiency</span>
+                                </div>
+                            </div>
+                            
+                            <div class="discussion-footer">
+                                <div class="discussion-author">
+                                    <div class="author-avatar">
+                                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Suresh Reddy">
+                                    </div>
+                                    <div class="author-info">
+                                        <span class="author-name">Suresh Reddy</span>
+                                        <span class="author-role">Farm Manager</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="discussion-stats">
+                                    <div class="stat">
+                                        <i class="far fa-eye"></i>
+                                        <span>128 views</span>
+                                    </div>
+                                    <div class="stat">
+                                        <i class="far fa-comment"></i>
+                                        <span>6 replies</span>
+                                    </div>
+                                    <div class="stat">
+                                        <i class="far fa-heart"></i>
+                                        <span>18 likes</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Discussion 6 -->
+                        <div class="discussion-card" data-category="success" data-views="420" data-replies="42" data-date="2024-11-28">
+                            <div class="discussion-header">
+                                <div class="discussion-status">
+                                    <span class="status-badge featured">
+                                        <i class="fas fa-award"></i> Featured
+                                    </span>
+                                    <span class="category-badge">Success Stories</span>
+                                </div>
+                                <div class="discussion-meta">
+                                    <span class="discussion-time">
+                                        <i class="far fa-clock"></i> 5 days ago
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="discussion-body">
+                                <h3 class="discussion-title">
+                                    <a href="discussion-detail.html">From 2 to 20 acres: My organic farming journey</a>
+                                </h3>
+                                <p class="discussion-excerpt">
+                                    Started with just 2 acres 5 years ago, now successfully managing 20 acres of organic vegetables. Sharing my experiences, challenges, and learnings...
+                                </p>
+                                
+                                <div class="discussion-tags">
+                                    <span class="tag">success-story</span>
+                                    <span class="tag">organic-farming</span>
+                                    <span class="tag">scale-up</span>
+                                    <span class="tag">experience-share</span>
+                                </div>
+                            </div>
+                            
+                            <div class="discussion-footer">
+                                <div class="discussion-author">
+                                    <div class="author-avatar">
+                                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Meena Devi">
+                                    </div>
+                                    <div class="author-info">
+                                        <span class="author-name">Meena Devi</span>
+                                        <span class="author-role">Organic Farm Owner</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="discussion-stats">
+                                    <div class="stat">
+                                        <i class="far fa-eye"></i>
+                                        <span>420 views</span>
+                                    </div>
+                                    <div class="stat">
+                                        <i class="far fa-comment"></i>
+                                        <span>42 replies</span>
+                                    </div>
+                                    <div class="stat">
+                                        <i class="far fa-heart"></i>
+                                        <span>89 likes</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="forum-pagination">
+                        <button class="pagination-btn prev" onclick="previousPage()">
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        
+                        <div class="page-numbers">
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn" onclick="goToPage(2)">2</button>
+                            <button class="page-btn" onclick="goToPage(3)">3</button>
+                            <span class="page-dots">...</span>
+                            <button class="page-btn" onclick="goToPage(10)">10</button>
+                        </div>
+                        
+                        <button class="pagination-btn next" onclick="nextPage()">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Expert Advice Section -->
+                    <div class="expert-advice">
+                        <div class="section-header">
+                            <h3>Expert Advice</h3>
+                            <p>Get answers from our agricultural experts</p>
+                        </div>
+                        
+                        <div class="experts-grid">
+                            <div class="expert-card">
+                                <div class="expert-avatar">
+                                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Dr. Arvind Sharma">
+                                </div>
+                                <div class="expert-info">
+                                    <h4>Dr. Arvind Sharma</h4>
+                                    <p class="expert-specialty">Agronomy Expert</p>
+                                    <p class="expert-bio">25 years experience in crop management</p>
+                                </div>
+                                <a href="#" class="expert-contact">
+                                    <i class="fas fa-envelope"></i> Ask Question
+                                </a>
+                            </div>
+                            
+                            <div class="expert-card">
+                                <div class="expert-avatar">
+                                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Dr. Priya Reddy">
+                                </div>
+                                <div class="expert-info">
+                                    <h4>Dr. Priya Reddy</h4>
+                                    <p class="expert-specialty">Soil Scientist</p>
+                                    <p class="expert-bio">Soil health and organic farming specialist</p>
+                                </div>
+                                <a href="#" class="expert-contact">
+                                    <i class="fas fa-envelope"></i> Ask Question
+                                </a>
+                            </div>
+                            
+                            <div class="expert-card">
+                                <div class="expert-avatar">
+                                    <img src="https://images.unsplash.com/photo-1551836026-d5c2c5af78e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Dr. Rajesh Verma">
+                                </div>
+                                <div class="expert-info">
+                                    <h4>Dr. Rajesh Verma</h4>
+                                    <p class="expert-specialty">Plant Pathologist</p>
+                                    <p class="expert-bio">Disease management and pest control</p>
+                                </div>
+                                <a href="#" class="expert-contact">
+                                    <i class="fas fa-envelope"></i> Ask Question
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Create Post Modal -->
+    <div class="modal-overlay" id="createPostModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Create New Discussion</h2>
+                <button class="modal-close" onclick="closeCreatePostModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="createPostForm">
+                    <div class="form-group">
+                        <label for="postTitle">
+                            <i class="fas fa-heading"></i> Title
+                        </label>
+                        <input type="text" id="postTitle" placeholder="Enter a descriptive title for your discussion" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="postCategory">
+                            <i class="fas fa-tag"></i> Category
+                        </label>
+                        <select id="postCategory" required>
+                            <option value="">Select Category</option>
+                            <option value="crops">Crop Cultivation</option>
+                            <option value="pests">Pests & Diseases</option>
+                            <option value="soil">Soil & Fertilizers</option>
+                            <option value="weather">Weather & Irrigation</option>
+                            <option value="market">Market & Prices</option>
+                            <option value="equipment">Equipment & Tools</option>
+                            <option value="organic">Organic Farming</option>
+                            <option value="success">Success Stories</option>
+                            <option value="help">Help & Support</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="postContent">
+                            <i class="fas fa-edit"></i> Description
+                        </label>
+                        <textarea id="postContent" rows="8" placeholder="Describe your question or share your experience in detail..." required></textarea>
+                        <div class="character-count">
+                            <span id="charCount">0</span> / 2000 characters
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="postTags">
+                            <i class="fas fa-tags"></i> Tags
+                        </label>
+                        <input type="text" id="postTags" placeholder="Add relevant tags (separate by commas)">
+                        <div class="tags-hint">e.g., tomato, pest-control, organic-farming</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="notifyReplies">
+                            <span>Notify me when someone replies</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="expertHelp">
+                            <span>Request expert advice</span>
+                        </label>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeCreatePostModal()">
+                    Cancel
+                </button>
+                <button class="btn btn-primary" onclick="submitPost()">
+                    <i class="fas fa-paper-plane"></i> Publish Discussion
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <i class="fas fa-seedling"></i>
+                        <span>SmartFarm</span>
+                    </div>
+                    <p class="footer-description">
+                        Empowering farmers with modern technology and community support for sustainable agriculture.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="forum.html">Community Forum</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Forum Categories</h3>
+                    <ul class="footer-links">
+                        <li><a href="forum.html?category=crops">Crop Cultivation</a></li>
+                        <li><a href="forum.html?category=pests">Pests & Diseases</a></li>
+                        <li><a href="forum.html?category=soil">Soil & Fertilizers</a></li>
+                        <li><a href="forum.html?category=market">Market & Prices</a></li>
+                        <li><a href="forum.html?category=organic">Organic Farming</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Contact Us</h3>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>support@smartfarm.com</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+91 98765 43210</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Farm Street, Agriculture City, India</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Smart Farming System. All rights reserved.</p>
+                <p class="forum-stats-footer">
+                    <span>5,280+ Discussions</span> • 
+                    <span>3,450+ Members</span> • 
+                    <span>98% Resolution Rate</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            <div class="chatbot-title">
+                <i class="fas fa-robot"></i>
+                <h3>Farming Assistant</h3>
+                <span class="chatbot-status online"></span>
+            </div>
+            <button class="chatbot-close" onclick="closeChatbot()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="chatbot-body" id="chatbotBody">
+            <div class="chat-message bot">
+                <div class="message-content">
+                    Hello! I'm your farming assistant. How can I help you today with crops, weather, or farming advice?
+                </div>
+                <div class="message-time">Just now</div>
+            </div>
+        </div>
+        
+        <div class="chatbot-input">
+            <input type="text" id="chatInput" placeholder="Type your farming question here...">
+            <button id="sendMessage" onclick="sendChatMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Chatbot Toggle Button -->
+    <button class="chatbot-toggle" onclick="toggleChatbot()">
+        <i class="fas fa-robot"></i>
+        <span class="chatbot-notification"></span>
+    </button>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,mr,hi,ta',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    
+    <script src="script.js"></script>
+    <script src="forum.js"></script>
+</body>
+</html>

@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Weather Forecast | Smart Farming System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="weather.css">
+    <!-- Weather Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.10/css/weather-icons.min.css">
+</head>
+<body>
+    <!-- Main Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span class="logo-text">SmartFarm</span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="crops.html" class="nav-link">
+                        <i class="fas fa-leaf"></i>
+                        <span>Crops</span>
+                    </a>
+                    <a href="weather.html" class="nav-link active">
+                        <i class="fas fa-cloud-sun"></i>
+                        <span>Weather</span>
+                    </a>
+                    <a href="marketplace.html" class="nav-link">
+                        <i class="fas fa-store"></i>
+                        <span>Marketplace</span>
+                    </a>
+                    <a href="forum.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>Community</span>
+                    </a>
+                    <a href="dashboard.php" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+
+                <!-- Header Right Section -->
+                <div class="header-right">
+                    <!-- Language Selector -->
+                    <div class="language-selector" id="languageSelector">
+                        <button class="language-btn" onclick="toggleLanguageDropdown()">
+                            <i class="fas fa-language"></i>
+                            <span id="currentLanguage">EN</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="language-dropdown" id="languageDropdown">
+                            <div class="language-option" onclick="changeLanguage('en')">
+                                <span class="flag-icon">🇺🇸</span>
+                                <span>English</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                            <div class="language-option" onclick="changeLanguage('mr')">
+                                <span class="flag-icon">🇮🇳</span>
+                                <span>मराठी</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                            <div class="language-option" onclick="changeLanguage('hi')">
+                                <span class="flag-icon">🇮🇳</span>
+                                <span>हिन्दी</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                            <div class="language-option" onclick="changeLanguage('ta')">
+                                <span class="flag-icon">🇮🇳</span>
+                                <span>தமிழ்</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Google Translate (Hidden) -->
+                    <div id="google_translate_element" style="display: none;"></div>
+
+                    <!-- Auth Buttons -->
+                    <div class="auth-buttons" id="authButtons">
+                        <a href="login.html" class="btn btn-outline btn-sm">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </a>
+                        <a href="register.html" class="btn btn-primary btn-sm">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Sign Up</span>
+                        </a>
+                    </div>
+
+                    <!-- User Profile (When Logged In) -->
+                    <div class="user-profile" id="userProfile" style="display: none;">
+                        <div class="user-dropdown" onclick="toggleUserDropdown()">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span class="user-name">John Doe</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="user-dropdown-menu" id="userDropdown">
+                            <a href="profile.php" class="dropdown-item">
+                                <i class="fas fa-user"></i> My Profile
+                            </a>
+                            <a href="dashboard.php" class="dropdown-item">
+                                <i class="fas fa-chart-line"></i> Dashboard
+                            </a>
+                            <a href="settings.html" class="dropdown-item">
+                                <i class="fas fa-cog"></i> Settings
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>SmartFarm</span>
+            </div>
+            <button class="close-menu" id="closeMenuBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-menu-links">
+            <a href="index.html" class="mobile-nav-link">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="crops.html" class="mobile-nav-link">
+                <i class="fas fa-leaf"></i> Crops
+            </a>
+            <a href="weather.html" class="mobile-nav-link active">
+                <i class="fas fa-cloud-sun"></i> Weather
+            </a>
+            <a href="marketplace.html" class="mobile-nav-link">
+                <i class="fas fa-store"></i> Marketplace
+            </a>
+            <a href="forum.html" class="mobile-nav-link">
+                <i class="fas fa-users"></i> Community
+            </a>
+            <a href="dashboard.php" class="mobile-nav-link">
+                <i class="fas fa-chart-line"></i> Dashboard
+            </a>
+            
+            <!-- Mobile Language Selector -->
+            <div class="mobile-language-selector">
+                <h4>Select Language</h4>
+                <div class="mobile-language-options">
+                    <button class="mobile-lang-btn active" onclick="changeLanguage('en')">
+                        <span class="flag-icon">🇺🇸</span> English
+                    </button>
+                    <button class="mobile-lang-btn" onclick="changeLanguage('mr')">
+                        <span class="flag-icon">🇮🇳</span> मराठी
+                    </button>
+                    <button class="mobile-lang-btn" onclick="changeLanguage('hi')">
+                        <span class="flag-icon">🇮🇳</span> हिन्दी
+                    </button>
+                    <button class="mobile-lang-btn" onclick="changeLanguage('ta')">
+                        <span class="flag-icon">🇮🇳</span> தமிழ்
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Auth Buttons -->
+            <div class="mobile-auth-buttons">
+                <a href="login.html" class="btn btn-outline">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+                <a href="register.html" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <section class="weather-header">
+        <div class="container">
+            <div class="header-content">
+                <h1>Weather Forecast</h1>
+                <p>Real-time weather updates and farming recommendations for your location</p>
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Weather</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Current Weather Widget -->
+    <section class="current-weather-section">
+        <div class="container">
+            <div class="weather-widget">
+                <div class="widget-header">
+                    <h2><i class="fas fa-map-marker-alt"></i> Current Weather</h2>
+                    <div class="location-controls">
+                        <button class="btn btn-outline btn-sm" onclick="getLocation()">
+                            <i class="fas fa-location-arrow"></i> Use My Location
+                        </button>
+                        <div class="location-search">
+                            <input type="text" id="locationSearch" placeholder="Search city...">
+                            <button onclick="searchLocation()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="current-weather-card" id="currentWeather">
+                    <div class="weather-main">
+                        <div class="weather-icon-large">
+                            <i class="wi wi-day-sunny" id="currentWeatherIcon"></i>
+                        </div>
+                        <div class="weather-info">
+                            <div class="location-info">
+                                <h3 id="currentLocation">Loading location...</h3>
+                                <div class="location-details">
+                                    <span><i class="fas fa-clock"></i> <span id="currentTime">--:--</span></span>
+                                    <span><i class="fas fa-calendar"></i> <span id="currentDate">-- --- ----</span></span>
+                                </div>
+                            </div>
+                            <div class="temperature-info">
+                                <div class="current-temp">
+                                    <span id="currentTemp">--</span>°C
+                                </div>
+                                <div class="temp-range">
+                                    <span>H: <span id="highTemp">--</span>°</span>
+                                    <span>L: <span id="lowTemp">--</span>°</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="weather-details-grid">
+                        <div class="weather-detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-thermometer-half"></i>
+                            </div>
+                            <div class="detail-info">
+                                <span class="detail-label">Feels Like</span>
+                                <span class="detail-value" id="feelsLike">--°C</span>
+                            </div>
+                        </div>
+                        
+                        <div class="weather-detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div class="detail-info">
+                                <span class="detail-label">Humidity</span>
+                                <span class="detail-value" id="humidity">--%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="weather-detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-wind"></i>
+                            </div>
+                            <div class="detail-info">
+                                <span class="detail-label">Wind Speed</span>
+                                <span class="detail-value" id="windSpeed">-- km/h</span>
+                            </div>
+                        </div>
+                        
+                        <div class="weather-detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-compass"></i>
+                            </div>
+                            <div class="detail-info">
+                                <span class="detail-label">Wind Direction</span>
+                                <span class="detail-value" id="windDirection">--</span>
+                            </div>
+                        </div>
+                        
+                        <div class="weather-detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-cloud"></i>
+                            </div>
+                            <div class="detail-info">
+                                <span class="detail-label">Cloud Cover</span>
+                                <span class="detail-value" id="cloudCover">--%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="weather-detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-sun"></i>
+                            </div>
+                            <div class="detail-info">
+                                <span class="detail-label">UV Index</span>
+                                <span class="detail-value" id="uvIndex">--</span>
+                            </div>
+                        </div>
+                        
+                        <div class="weather-detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="detail-info">
+                                <span class="detail-label">Visibility</span>
+                                <span class="detail-value" id="visibility">-- km</span>
+                            </div>
+                        </div>
+                        
+                        <div class="weather-detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                            <div class="detail-info">
+                                <span class="detail-label">Pressure</span>
+                                <span class="detail-value" id="pressure">-- hPa</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="weather-condition">
+                        <span class="condition-text" id="weatherCondition">Loading weather condition...</span>
+                        <span class="condition-update">
+                            <i class="fas fa-sync-alt"></i> Updated: <span id="lastUpdated">Just now</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hourly Forecast -->
+    <section class="hourly-forecast-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-clock"></i> 24-Hour Forecast</h2>
+                <p>Hourly weather predictions for the next 24 hours</p>
+            </div>
+            
+            <div class="hourly-forecast-container">
+                <div class="hourly-scroll" id="hourlyScroll">
+                    <!-- Hourly forecast cards will be loaded here -->
+                    <div class="hourly-card">
+                        <div class="hourly-time">Now</div>
+                        <div class="hourly-icon">
+                            <i class="wi wi-day-sunny"></i>
+                        </div>
+                        <div class="hourly-temp">--°</div>
+                        <div class="hourly-precip">
+                            <i class="fas fa-tint"></i> --%
+                        </div>
+                    </div>
+                    <!-- More hourly cards will be added by JavaScript -->
+                </div>
+                <button class="scroll-btn left" onclick="scrollHourly(-200)">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="scroll-btn right" onclick="scrollHourly(200)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5-Day Forecast -->
+    <section class="daily-forecast-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-calendar-alt"></i> 5-Day Forecast</h2>
+                <p>Extended weather forecast for planning farming activities</p>
+            </div>
+            
+            <div class="daily-forecast-grid" id="dailyForecast">
+                <!-- Daily forecast cards will be loaded here -->
+                <div class="daily-card">
+                    <div class="daily-day">Today</div>
+                    <div class="daily-icon">
+                        <i class="wi wi-day-sunny"></i>
+                    </div>
+                    <div class="daily-temp">
+                        <span class="high">--°</span>
+                        <span class="low">--°</span>
+                    </div>
+                    <div class="daily-condition">Loading...</div>
+                    <div class="daily-precip">
+                        <i class="fas fa-tint"></i> --%
+                    </div>
+                </div>
+                <!-- More daily cards will be added by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Weather Alerts -->
+    <section class="alerts-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-exclamation-triangle"></i> Weather Alerts</h2>
+                <p>Important weather warnings for your area</p>
+            </div>
+            
+            <div class="alerts-container" id="weatherAlerts">
+                <!-- Alerts will be loaded here -->
+                <div class="alert-card info">
+                    <div class="alert-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="alert-content">
+                        <h3>No Active Alerts</h3>
+                        <p>There are currently no weather alerts for your area.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Farming Recommendations -->
+    <section class="recommendations-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-seedling"></i> Farming Recommendations</h2>
+                <p>Weather-based farming advice for optimal crop management</p>
+            </div>
+            
+            <div class="recommendations-grid" id="farmingRecommendations">
+                <div class="recommendation-card">
+                    <div class="recommendation-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <div class="recommendation-content">
+                        <h3>Irrigation Advice</h3>
+                        <p>Based on current weather conditions, you should water your crops in the early morning.</p>
+                        <span class="recommendation-time">Today 6:00 AM - 8:00 AM</span>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card">
+                    <div class="recommendation-icon">
+                        <i class="fas fa-spray-can"></i>
+                    </div>
+                    <div class="recommendation-content">
+                        <h3>Spraying Schedule</h3>
+                        <p>Optimal time for pesticide application is in the evening when wind speeds are low.</p>
+                        <span class="recommendation-time">Today 5:00 PM - 7:00 PM</span>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card">
+                    <div class="recommendation-icon">
+                        <i class="fas fa-tractor"></i>
+                    </div>
+                    <div class="recommendation-content">
+                        <h3>Field Activities</h3>
+                        <p>Good day for plowing and field preparation. Soil moisture is optimal.</p>
+                        <span class="recommendation-time">All Day</span>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card">
+                    <div class="recommendation-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="recommendation-content">
+                        <h3>Crop Protection</h3>
+                        <p>Monitor for pest activity. Current humidity levels may increase fungal diseases.</p>
+                        <span class="recommendation-time">Monitor Closely</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Weather History -->
+    <section class="history-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-line"></i> Weather History</h2>
+                <p>Historical weather data for analysis and planning</p>
+            </div>
+            
+            <div class="history-container">
+                <div class="history-filters">
+                    <select id="historyPeriod" onchange="loadWeatherHistory()">
+                        <option value="7">Last 7 Days</option>
+                        <option value="30">Last 30 Days</option>
+                        <option value="90">Last 3 Months</option>
+                        <option value="365">Last Year</option>
+                    </select>
+                    
+                    <select id="historyMetric" onchange="updateHistoryChart()">
+                        <option value="temperature">Temperature</option>
+                        <option value="rainfall">Rainfall</option>
+                        <option value="humidity">Humidity</option>
+                        <option value="wind">Wind Speed</option>
+                    </select>
+                </div>
+                
+                <div class="history-chart-container">
+                    <canvas id="weatherHistoryChart"></canvas>
+                </div>
+                
+                <div class="history-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-thermometer-half"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Average Temperature</h3>
+                            <div class="stat-value" id="avgTemp">--°C</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-cloud-rain"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Total Rainfall</h3>
+                            <div class="stat-value" id="totalRainfall">-- mm</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-sun"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Sunny Days</h3>
+                            <div class="stat-value" id="sunnyDays">--</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-wind"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Max Wind Speed</h3>
+                            <div class="stat-value" id="maxWind">-- km/h</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Weather Map -->
+    <section class="map-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-map"></i> Weather Map</h2>
+                <p>Interactive weather map with radar and satellite imagery</p>
+            </div>
+            
+            <div class="map-container">
+                <div class="map-controls">
+                    <div class="map-type-selector">
+                        <button class="map-type-btn active" onclick="showMapType('radar')">
+                            <i class="fas fa-satellite"></i> Radar
+                        </button>
+                        <button class="map-type-btn" onclick="showMapType('satellite')">
+                            <i class="fas fa-globe"></i> Satellite
+                        </button>
+                        <button class="map-type-btn" onclick="showMapType('temperature')">
+                            <i class="fas fa-thermometer-half"></i> Temperature
+                        </button>
+                        <button class="map-type-btn" onclick="showMapType('rainfall')">
+                            <i class="fas fa-cloud-rain"></i> Rainfall
+                        </button>
+                    </div>
+                    
+                    <div class="map-zoom">
+                        <button class="zoom-btn" onclick="zoomMap(-1)">
+                            <i class="fas fa-search-minus"></i>
+                        </button>
+                        <span class="zoom-level">100%</span>
+                        <button class="zoom-btn" onclick="zoomMap(1)">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="map-placeholder" id="weatherMap">
+                    <div class="map-loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading weather map...</p>
+                    </div>
+                    <div class="map-overlay">
+                        <div class="map-legend">
+                            <h4>Legend</h4>
+                            <div class="legend-items">
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background: #00ff00;"></span>
+                                    <span>Light Rain</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background: #0000ff;"></span>
+                                    <span>Moderate Rain</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background: #ff0000;"></span>
+                                    <span>Heavy Rain</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscribe to Alerts -->
+    <section class="subscribe-section">
+        <div class="container">
+            <div class="subscribe-card">
+                <div class="subscribe-content">
+                    <h2><i class="fas fa-bell"></i> Get Weather Alerts</h2>
+                    <p>Receive SMS or email alerts for important weather changes affecting your farm</p>
+                    
+                    <form class="subscribe-form" id="subscribeForm">
+                        <div class="form-group">
+                            <input type="email" placeholder="Your email address" required>
+                            <input type="tel" placeholder="Phone number (optional)">
+                        </div>
+                        
+                        <div class="form-group">
+                            <select required>
+                                <option value="">Select Alert Type</option>
+                                <option value="rain">Rain Alerts</option>
+                                <option value="storm">Storm Warnings</option>
+                                <option value="frost">Frost Alerts</option>
+                                <option value="heat">Heat Warnings</option>
+                                <option value="all">All Alerts</option>
+                            </select>
+                            
+                            <select required>
+                                <option value="">Alert Frequency</option>
+                                <option value="immediate">Immediate</option>
+                                <option value="daily">Daily Summary</option>
+                                <option value="weekly">Weekly Report</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-check">
+                            <input type="checkbox" id="smsAlerts" checked>
+                            <label for="smsAlerts">Receive SMS Alerts</label>
+                            
+                            <input type="checkbox" id="emailAlerts" checked>
+                            <label for="emailAlerts">Receive Email Alerts</label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-bell"></i> Subscribe to Alerts
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="subscribe-image">
+                    <img src="https://images.unsplash.com/photo-1558470598-a5dda9640f68?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Weather Alert">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <i class="fas fa-seedling"></i>
+                        <span>SmartFarm</span>
+                    </div>
+                    <p class="footer-description">
+                        Empowering farmers with modern technology and community support for sustainable agriculture.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="crops.html">Crop Information</a></li>
+                        <li><a href="weather.html">Weather Forecast</a></li>
+                        <li><a href="marketplace.html">Marketplace</a></li>
+                        <li><a href="forum.html">Community Forum</a></li>
+                        <li><a href="dashboard.php">Farmer Dashboard</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Contact Us</h3>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>support@smartfarm.com</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+91 98765 43210</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Farm Street, Agriculture City, India</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Smart Farming System. All rights reserved.</p>
+                <p class="weather-attribution">
+                    Weather data provided by OpenWeatherMap
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            <div class="chatbot-title">
+                <i class="fas fa-robot"></i>
+                <h3>Weather Assistant</h3>
+                <span class="chatbot-status online"></span>
+            </div>
+            <button class="chatbot-close" onclick="closeChatbot()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="chatbot-body" id="chatbotBody">
+            <div class="chat-message bot">
+                <div class="message-content">
+                    Hello! I'm your weather assistant. Ask me about weather forecasts, farming recommendations, or weather alerts.
+                </div>
+                <div class="message-time">Just now</div>
+            </div>
+        </div>
+        
+        <div class="chatbot-input">
+            <input type="text" id="chatInput" placeholder="Ask about weather or farming advice...">
+            <button id="sendMessage" onclick="sendChatMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Chatbot Toggle Button -->
+    <button class="chatbot-toggle" onclick="toggleChatbot()">
+        <i class="fas fa-robot"></i>
+        <span class="chatbot-notification"></span>
+    </button>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,mr,hi,ta',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    
+    <!-- Chart.js for weather history -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script src="script.js"></script>
+    <script src="weather.js"></script>
+</body>
+</html>

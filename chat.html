@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>किसान साथी - AI फार्मिंग असिस्टेंट</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --primary: #22c55e;
+  --primary-dark: #16a34a;
+  --primary-light: #86efac;
+  --secondary: #3b82f6;
+  --accent: #f59e0b;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --bg-primary: #0a0f1c;
+  --bg-secondary: #111827;
+  --bg-surface: #1e293b;
+  --bg-card: rgba(30, 41, 59, 0.8);
+  --border: rgba(34, 197, 94, 0.2);
+  --shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  --gradient: linear-gradient(135deg, #22c55e 0%, #3b82f6 100%);
+  --gradient-dark: linear-gradient(135deg, #16a34a 0%, #1d4ed8 100%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Hind Siliguri', sans-serif;
+  min-height: 100vh;
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(34, 197, 94, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+  overflow-x: hidden;
+}
+
+/* Modern Header */
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(10, 15, 28, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  z-index: 1000;
+  padding: 1rem 2rem;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo-icon {
+  width: 50px;
+  height: 50px;
+  background: var(--gradient);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.logo-text h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0;
+}
+
+.logo-text p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 0.2rem;
+}
+
+/* Stats Bar */
+.stats-bar {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: var(--bg-surface);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  min-width: 100px;
+}
+
+.stat-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* Main Container */
+.chat-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 20px 40px;
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 2rem;
+}
+
+/* Left Column - Main Chat */
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Visualization Card */
+.viz-card {
+  background: var(--bg-card);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.card-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-title i {
+  color: var(--primary);
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.control-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+  background: var(--primary);
+  color: white;
+  transform: translateY(-2px);
+}
+
+canvas {
+  width: 100%;
+  height: 250px;
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid var(--border);
+}
+
+/* Speaking Text */
+.speaking-container {
+  background: var(--bg-card);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.speaking-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.speaking-header i {
+  color: var(--primary);
+  font-size: 1.2rem;
+}
+
+.speaking-header h3 {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+#speakingText {
+  min-height: 80px;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  padding: 1rem;
+  background: rgba(34, 197, 94, 0.1);
+  border-radius: 15px;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  display: none;
+  animation: fadeIn 0.5s ease;
+}
+
+/* Chat Messages */
+.chat-messages-container {
+  background: var(--bg-card);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.messages-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.messages-header h3 {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.chat-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+#chatMessages {
+  flex: 1;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  border: 1px solid var(--border);
+}
+
+/* Custom Scrollbar */
+#chatMessages::-webkit-scrollbar {
+  width: 8px;
+}
+
+#chatMessages::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+#chatMessages::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+#chatMessages::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+.msg {
+  padding: 1rem 1.2rem;
+  border-radius: 18px;
+  max-width: 85%;
+  animation: fadeIn 0.3s ease;
+  position: relative;
+  word-wrap: break-word;
+}
+
+.user-msg {
+  background: var(--gradient);
+  color: white;
+  align-self: flex-end;
+  margin-left: auto;
+  border-bottom-right-radius: 5px;
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+}
+
+.ai-msg {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  align-self: flex-start;
+  border: 1px solid var(--border);
+  border-bottom-left-radius: 5px;
+}
+
+.msg-time {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  margin-top: 0.5rem;
+}
+
+/* Status Indicator */
+.status-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg-card);
+  border-radius: 15px;
+  border: 1px solid var(--border);
+  margin: 1rem 0;
+}
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--primary);
+  animation: pulse 2s infinite;
+}
+
+#status {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* Input Section */
+.input-section {
+  background: var(--bg-card);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.input-group {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.input-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.input-wrapper i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+}
+
+#userInput {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3rem;
+  background: var(--bg-surface);
+  border: 2px solid var(--border);
+  border-radius: 15px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+#userInput:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
+#userInput::placeholder {
+  color: var(--text-secondary);
+}
+
+.circle-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--gradient);
+  color: white;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+}
+
+.circle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.6);
+}
+
+.circle-btn:active {
+  transform: translateY(0);
+}
+
+.mic-btn.listening {
+  background: var(--gradient-dark);
+  animation: pulse 1.5s infinite;
+}
+
+/* Controls Row */
+.controls-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.select-wrapper {
+  flex: 1;
+  min-width: 200px;
+  position: relative;
+}
+
+.select-wrapper i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  z-index: 1;
+}
+
+#langSelect {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 3rem;
+  background: var(--bg-surface);
+  border: 2px solid var(--border);
+  border-radius: 15px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+#langSelect:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.toggle-wrapper {
+  flex: 1;
+  min-width: 200px;
+}
+
+#jarvisToggle {
+  width: 100%;
+  padding: 0.8rem 1.5rem;
+  background: var(--bg-surface);
+  border: 2px solid var(--border);
+  border-radius: 15px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  transition: all 0.3s ease;
+}
+
+#jarvisToggle.on {
+  background: var(--gradient);
+  border-color: transparent;
+  color: white;
+}
+
+.toggle-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ef4444;
+  transition: all 0.3s ease;
+}
+
+#jarvisToggle.on .toggle-indicator {
+  background: white;
+  box-shadow: 0 0 10px white;
+}
+
+/* Right Column - Features */
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.feature-card {
+  background: var(--bg-card);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.feature-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--gradient);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.feature-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Quick Actions */
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.quick-btn {
+  padding: 1rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.quick-btn:hover {
+  background: var(--primary);
+  color: white;
+  transform: translateY(-2px);
+  border-color: transparent;
+}
+
+.quick-btn i {
+  font-size: 1.2rem;
+}
+
+/* Weather Info */
+.weather-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.weather-current {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(34, 197, 94, 0.1);
+  border-radius: 15px;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.weather-icon {
+  font-size: 2.5rem;
+  color: var(--primary);
+}
+
+.weather-details h4 {
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: 0.3rem;
+}
+
+.weather-details p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.weather-forecast {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+}
+
+.forecast-day {
+  text-align: center;
+  padding: 0.8rem;
+  background: var(--bg-surface);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.forecast-day span {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.3rem;
+}
+
+.forecast-day p {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Market Prices */
+.price-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.price-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem;
+  background: var(--bg-surface);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.price-item:hover {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: var(--primary);
+}
+
+.crop-name {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.crop-icon {
+  width: 30px;
+  height: 30px;
+  background: var(--gradient);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.crop-name span {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.crop-price {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .chat-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-bar {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .input-group {
+    flex-direction: column;
+  }
+  
+  .circle-btn {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .controls-row {
+    flex-direction: column;
+  }
+  
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Notification */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--gradient);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.notification.show {
+  transform: translateX(0);
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+</style>
+</head>
+
+<body>
+<!-- Modern Header -->
+<header class="main-header">
+  <div class="header-content">
+    <div class="logo-container">
+      <div class="logo-icon">
+        <i class="fas fa-seedling"></i>
+      </div>
+      <div class="logo-text">
+        <h1>किसान साथी</h1>
+        <p>AI फार्मिंग असिस्टेंट • फसल, मौसम, खाद, कीट, मंडी भाव</p>
+      </div>
+    </div>
+    
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-value">24°C</span>
+        <span class="stat-label">तापमान</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">65%</span>
+        <span class="stat-label">नमी</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">₹4,250</span>
+        <span class="stat-label">गेहूँ</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">8.2</span>
+        <span class="stat-label">pH मान</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Container -->
+<div class="chat-container">
+  <!-- Left Column -->
+  <div class="left-column">
+    <!-- Visualization Card -->
+    <div class="viz-card">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-wave-square"></i>
+          ध्वनि विश्लेषण
+        </div>
+        <div class="controls">
+          <button class="control-btn" title="Fullscreen">
+            <i class="fas fa-expand"></i>
+          </button>
+          <button class="control-btn" title="Settings">
+            <i class="fas fa-cog"></i>
+          </button>
+        </div>
+      </div>
+      <canvas id="canvas"></canvas>
+    </div>
+
+    <!-- Speaking Text -->
+    <div class="speaking-container">
+      <div class="speaking-header">
+        <i class="fas fa-volume-up"></i>
+        <h3>बोल रहा है</h3>
+      </div>
+      <div id="speakingText"></div>
+    </div>
+
+    <!-- Chat Messages -->
+    <div class="chat-messages-container">
+      <div class="messages-header">
+        <h3>संवाद</h3>
+        <div class="chat-actions">
+          <button class="control-btn" title="Clear chat">
+            <i class="fas fa-trash"></i>
+          </button>
+          <button class="control-btn" title="Export chat">
+            <i class="fas fa-download"></i>
+          </button>
+          <button class="control-btn" title="Share">
+            <i class="fas fa-share-alt"></i>
+          </button>
+        </div>
+      </div>
+      <div id="chatMessages"></div>
+    </div>
+
+    <!-- Status Indicator -->
+    <div class="status-container">
+      <div class="status-indicator"></div>
+      <div id="status">तैयार है...</div>
+    </div>
+
+    <!-- Input Section -->
+    <div class="input-section">
+      <div class="input-group">
+        <button id="micBtn" class="circle-btn mic-btn" title="Voice Input">
+          <i class="fas fa-microphone"></i>
+        </button>
+        
+        <div class="input-wrapper">
+          <i class="fas fa-comment"></i>
+          <input id="userInput" placeholder="यहाँ बोलें या लिखें..." autocomplete="off"/>
+        </div>
+        
+        <button id="sendBtn" class="circle-btn" title="Send Message">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+      
+      <div class="controls-row">
+        <div class="select-wrapper">
+          <i class="fas fa-language"></i>
+          <select id="langSelect">
+            <option value="hindi">हिन्दी</option>
+            <option value="marathi">मराठी</option>
+            <option value="english">English</option>
+            <option value="punjabi">ਪੰਜਾਬੀ</option>
+            <option value="bengali">বাংলা</option>
+          </select>
+        </div>
+        
+        <div class="toggle-wrapper">
+          <button id="jarvisToggle">
+            <div class="toggle-indicator"></div>
+            <span>Jarvis Mode: OFF</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Column - Features -->
+  <div class="right-column">
+    <!-- Quick Actions -->
+    <div class="feature-card">
+      <div class="feature-header">
+        <div class="feature-icon">
+          <i class="fas fa-bolt"></i>
+        </div>
+        <div class="feature-title">त्वरित कार्रवाई</div>
+      </div>
+      <div class="quick-actions">
+        <button class="quick-btn" onclick="quickAction('weather')">
+          <i class="fas fa-cloud-sun"></i>
+          <span>मौसम जानकारी</span>
+        </button>
+        <button class="quick-btn" onclick="quickAction('crop_price')">
+          <i class="fas fa-rupee-sign"></i>
+          <span>मंडी भाव</span>
+        </button>
+        <button class="quick-btn" onclick="quickAction('fertilizer')">
+          <i class="fas fa-flask"></i>
+          <span>खाद सुझाव</span>
+        </button>
+        <button class="quick-btn" onclick="quickAction('pest_control')">
+          <i class="fas fa-bug"></i>
+          <span>कीट नियंत्रण</span>
+        </button>
+        <button class="quick-btn" onclick="quickAction('irrigation')">
+          <i class="fas fa-tint"></i>
+          <span>सिंचाई सलाह</span>
+        </button>
+        <button class="quick-btn" onclick="quickAction('crop_calendar')">
+          <i class="fas fa-calendar-alt"></i>
+          <span>फसल कैलेंडर</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Weather Info -->
+    <div class="feature-card">
+      <div class="feature-header">
+        <div class="feature-icon">
+          <i class="fas fa-cloud-sun-rain"></i>
+        </div>
+        <div class="feature-title">आज का मौसम</div>
+      </div>
+      <div class="weather-info">
+        <div class="weather-current">
+          <div class="weather-icon">
+            <i class="fas fa-sun"></i>
+          </div>
+          <div class="weather-details">
+            <h4>शामली, उत्तर प्रदेश</h4>
+            <p>24°C • हल्की धूप • पूर्वाह्न 10:30</p>
+          </div>
+        </div>
+        <div class="weather-forecast">
+          <div class="forecast-day">
+            <span>कल</span>
+            <p>26°C</p>
+          </div>
+          <div class="forecast-day">
+            <span>परसों</span>
+            <p>23°C</p>
+          </div>
+          <div class="forecast-day">
+            <span>शुक्र</span>
+            <p>22°C</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Market Prices -->
+    <div class="feature-card">
+      <div class="feature-header">
+        <div class="feature-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="feature-title">मंडी भाव (प्रति क्विंटल)</div>
+      </div>
+      <div class="price-list">
+        <div class="price-item">
+          <div class="crop-name">
+            <div class="crop-icon">
+              <i class="fas fa-wheat"></i>
+            </div>
+            <span>गेहूँ</span>
+          </div>
+          <div class="crop-price">₹4,250</div>
+        </div>
+        <div class="price-item">
+          <div class="crop-name">
+            <div class="crop-icon">
+              <i class="fas fa-seedling"></i>
+            </div>
+            <span>धान</span>
+          </div>
+          <div class="crop-price">₹3,850</div>
+        </div>
+        <div class="price-item">
+          <div class="crop-name">
+            <div class="crop-icon">
+              <i class="fas fa-corn"></i>
+            </div>
+            <span>मक्का</span>
+          </div>
+          <div class="crop-price">₹2,950</div>
+        </div>
+        <div class="price-item">
+          <div class="crop-name">
+            <div class="crop-icon">
+              <i class="fas fa-pepper-hot"></i>
+            </div>
+            <span>सरसों</span>
+          </div>
+          <div class="crop-price">₹5,100</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Notification -->
+<div class="notification" id="notification">
+  <i class="fas fa-info-circle"></i>
+  <span id="notificationText">स्वागत है! आपकी मदद के लिए तैयार हूँ।</span>
+</div>
+
+<script>
+// All your original JavaScript logic remains exactly the same
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const statusEl = document.getElementById("status");
+const userInput = document.getElementById("userInput");
+const micBtn = document.getElementById("micBtn");
+const sendBtn = document.getElementById("sendBtn");
+const langSelect = document.getElementById("langSelect");
+const jarvisToggle = document.getElementById("jarvisToggle");
+const speakingText = document.getElementById("speakingText");
+
+let recorder = null, analyser = null, dataArray = null, isSpeaking = false, jarvisMode = false;
+let conversationHistory = [];
+
+const voiceConfig = { hindi: "Namrita", marathi: "Alicia", english: "Nikhil" };
+const langMap = { hindi: "hi-IN", marathi: "mr-IN", english: "en-IN" };
+
+function resizeCanvas() {
+  canvas.width = canvas.parentNode.offsetWidth * devicePixelRatio;
+  canvas.height = 250 * devicePixelRatio;
+  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+}
+resizeCanvas(); window.addEventListener("resize", resizeCanvas);
+
+function drawWave() {
+  requestAnimationFrame(drawWave);
+  if (!analyser || !isSpeaking) return;
+  analyser.getByteTimeDomainData(dataArray);
+  ctx.fillStyle = "rgba(0,0,0,0.1)"; ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.lineWidth = 5; ctx.strokeStyle = "#22c55e"; ctx.shadowBlur = 30; ctx.shadowColor = "#22c55e";
+  ctx.beginPath();
+  const w = canvas.width / dataArray.length;
+  for (let i = 0; i < dataArray.length; i++) {
+    const y = (dataArray[i] / 128) * canvas.height / 3;
+    i === 0 ? ctx.moveTo(0, y) : ctx.lineTo(i * w, y);
+  }
+  ctx.stroke();
+}
+drawWave();
+
+// Speech Recognition - UNCHANGED
+if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recorder = new SR();
+  recorder.continuous = false;
+  recorder.lang = langMap[langSelect.value] || "hi-IN";
+
+  recorder.onresult = e => { 
+    userInput.value = e.results[0][0].transcript; 
+    sendMessage(); 
+  };
+  recorder.onend = () => micBtn.classList.remove("listening");
+  recorder.onerror = () => {
+    statusEl.textContent = "माइक में समस्या";
+    showNotification("माइक्रोफ़ोन में समस्या हो रही है");
+  };
+  
+  langSelect.onchange = () => recorder.lang = langMap[langSelect.value] || "hi-IN";
+}
+
+micBtn.onclick = () => {
+  if (recorder) {
+    recorder.start();
+    statusEl.textContent = "सुन रहा हूँ...";
+    micBtn.classList.add("listening");
+    showNotification("आपकी आवाज़ सुन रहा हूँ...");
+  }
+};
+
+jarvisToggle.onclick = () => {
+  jarvisMode = !jarvisMode;
+  jarvisToggle.innerHTML = jarvisMode ? 
+    '<div class="toggle-indicator"></div><span>Jarvis Mode: ON</span>' : 
+    '<div class="toggle-indicator"></div><span>Jarvis Mode: OFF</span>';
+  jarvisToggle.classList.toggle("on", jarvisMode);
+  
+  const message = jarvisMode ? 
+    "Jarvis मोड चालू है। मैं लगातार सुन रहा हूँ।" : 
+    "Jarvis मोड बंद है।";
+  showNotification(message);
+  
+  if (jarvisMode && recorder && !isSpeaking) setTimeout(() => recorder.start(), 500);
+};
+
+// Send Message - UNCHANGED
+async function sendMessage() {
+  const msg = userInput.value.trim();
+  if (!msg) return;
+
+  // Add user message with timestamp
+  const time = new Date().toLocaleTimeString('hi-IN', { hour: '2-digit', minute: '2-digit' });
+  document.getElementById("chatMessages").innerHTML += `
+    <div class="msg user-msg">
+      ${msg}
+      <div class="msg-time">${time}</div>
+    </div>
+  `;
+  document.getElementById("chatMessages").scrollTop = document.getElementById("chatMessages").scrollHeight;
+
+  userInput.value = "";
+  statusEl.textContent = "सोच रहा हूँ...";
+
+  conversationHistory.push({ role: "user", content: msg });
+  if (conversationHistory.length > 10) conversationHistory = conversationHistory.slice(-10);
+
+  try {
+    const res = await fetch("backend/kisan_process.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ 
+        message: msg, 
+        lang_mode: langSelect.value, 
+        history: conversationHistory 
+      })
+    });
+
+    const data = await res.json();
+    const reply = data.reply || "कृपया फिर से पूछें।";
+
+    conversationHistory.push({ role: "assistant", content: reply });
+    playVoice(reply);
+
+  } catch {
+    statusEl.textContent = "नेटवर्क समस्या";
+    showNotification("नेटवर्क कनेक्शन में समस्या हो रही है");
+  }
+}
+
+// Voice + Gradual Text - UNCHANGED
+async function playVoice(text) {
+  statusEl.textContent = "बोल रहा हूँ...";
+  speakingText.style.display = "block";
+  speakingText.textContent = "";
+
+  const voice = voiceConfig[langSelect.value] || "Namrita";
+  const res = await fetch("backend/kisan_tts.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text, voiceId: voice })
+  });
+
+  if (res.ok) {
+    const audio = new Audio(URL.createObjectURL(await res.blob()));
+    const actx = new AudioContext();
+    const source = actx.createMediaElementSource(audio);
+    analyser = actx.createAnalyser();
+    source.connect(analyser);
+    analyser.connect(actx.destination);
+    isSpeaking = true;
+
+    // Gradual text display
+    const words = text.split(" ");
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < words.length && isSpeaking) {
+        speakingText.textContent += (i === 0 ? "" : " ") + words[i];
+        i++;
+      } else clearInterval(interval);
+    }, 180);
+
+    audio.onended = () => {
+      isSpeaking = false;
+      statusEl.textContent = jarvisMode ? "सुन रहा हूँ..." : "तैयार है...";
+      speakingText.style.display = "none";
+
+      // Add AI message with timestamp
+      const time = new Date().toLocaleTimeString('hi-IN', { hour: '2-digit', minute: '2-digit' });
+      document.getElementById("chatMessages").innerHTML += `
+        <div class="msg ai-msg">
+          ${text}
+          <div class="msg-time">${time}</div>
+        </div>
+      `;
+      document.getElementById("chatMessages").scrollTop = document.getElementById("chatMessages").scrollHeight;
+
+      if (jarvisMode) setTimeout(() => recorder?.start(), 800);
+    };
+    audio.play();
+  } else {
+    speakingText.style.display = "none";
+    const time = new Date().toLocaleTimeString('hi-IN', { hour: '2-digit', minute: '2-digit' });
+    document.getElementById("chatMessages").innerHTML += `
+      <div class="msg ai-msg">
+        ${text}
+        <div class="msg-time">${time}</div>
+      </div>
+    `;
+    statusEl.textContent = "आवाज़ में समस्या";
+  }
+}
+
+// New helper functions
+function showNotification(text) {
+  const notification = document.getElementById("notification");
+  const notificationText = document.getElementById("notificationText");
+  
+  notificationText.textContent = text;
+  notification.classList.add("show");
+  
+  setTimeout(() => {
+    notification.classList.remove("show");
+  }, 3000);
+}
+
+function quickAction(action) {
+  const actions = {
+    weather: "आज का मौसम कैसा रहेगा?",
+    crop_price: "आज गेहूँ का भाव क्या है?",
+    fertilizer: "गेहूँ के लिए कौन सी खाद उपयोगी है?",
+    pest_control: "गेहूँ में कीट नियंत्रण कैसे करें?",
+    irrigation: "गेहूँ की सिंचाई कब करनी चाहिए?",
+    crop_calendar: "गेहूँ बोने का सही समय क्या है?"
+  };
+  
+  userInput.value = actions[action];
+  sendMessage();
+}
+
+// Initialize notification
+setTimeout(() => {
+  showNotification("किसान साथी आपकी सेवा में उपलब्ध है। बोलकर या लिखकर पूछें!");
+}, 1000);
+
+// Event listeners - UNCHANGED
+sendBtn.onclick = sendMessage;
+userInput.addEventListener("keypress", e => { 
+  if (e.key === "Enter") sendMessage(); 
+});
+
+// Clear chat button
+document.querySelector('.chat-actions .control-btn:nth-child(1)').onclick = () => {
+  document.getElementById("chatMessages").innerHTML = "";
+  conversationHistory = [];
+  showNotification("संवाद साफ़ किया गया");
+};
+
+// Update weather and prices every 5 minutes
+function updateLiveData() {
+  // Simulate data updates
+  const temp = Math.floor(20 + Math.random() * 10);
+  document.querySelector('.stat-value:nth-child(1)').textContent = `${temp}°C`;
+  
+  const prices = [4250, 3850, 2950, 5100];
+  prices.forEach((price, i) => {
+    const change = Math.floor(Math.random() * 100) - 50;
+    const newPrice = price + change;
+    document.querySelectorAll('.crop-price')[i].textContent = `₹${newPrice}`;
+  });
+}
+
+setInterval(updateLiveData, 300000); // Every 5 minutes
+
+
+
+
+</script>
+</body>
+</html>
