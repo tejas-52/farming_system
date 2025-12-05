@@ -6,10 +6,6 @@ Built for **Techfest 2025-26 – Murf Voice Agent Hackathon**
 **Built using Murf Falcon – the consistently fastest TTS API.**
 
 
-## 🎥 Demo Video
-Watch on YouTube: https://youtu.be/-n4GwpPkfb8
-
-
 ---
 
 ## 📌 Project Overview
@@ -184,6 +180,7 @@ Please **Star** ⭐ the repository and support by sharing!
 ### **Built using Murf Falcon – the consistently fastest TTS API.** 🚀
 
 ---
+
 
 
 
