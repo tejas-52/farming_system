@@ -146,6 +146,9 @@ Shortlisted teams will present live at IIT Bombay.
 | Name              | Role                             |
 | ----------------- | -------------------------------- |
 | **Tejas Jagdale** | Developer & Voice AI Integration |
+| **Tanuja Kannor** | Developer & Voice AI Integration |
+
+
 
 ---
 
@@ -176,4 +179,5 @@ Please **Star** ⭐ the repository and support by sharing!
 ### **Built using Murf Falcon – the consistently fastest TTS API.** 🚀
 
 ---
+
 
