@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Farm Marketplace | Buy & Sell Agricultural Products</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="marketplace.css">
+</head>
+<body>
+    <!-- Main Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span class="logo-text">SmartFarm</span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="crops.html" class="nav-link">
+                        <i class="fas fa-leaf"></i>
+                        <span>Crops</span>
+                    </a>
+                    <a href="weather.html" class="nav-link">
+                        <i class="fas fa-cloud-sun"></i>
+                        <span>Weather</span>
+                    </a>
+                    <a href="marketplace.html" class="nav-link active">
+                        <i class="fas fa-store"></i>
+                        <span>Marketplace</span>
+                    </a>
+                    <a href="forum.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>Community</span>
+                    </a>
+                    <a href="dashboard.php" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+
+                <!-- Header Right Section -->
+                <div class="header-right">
+                    <!-- Language Selector -->
+                    <div class="language-selector" id="languageSelector">
+                        <button class="language-btn" onclick="toggleLanguageDropdown()">
+                            <i class="fas fa-language"></i>
+                            <span id="currentLanguage">EN</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="language-dropdown" id="languageDropdown">
+                            <div class="language-option" onclick="changeLanguage('en')">
+                                <span class="flag-icon">🇺🇸</span>
+                                <span>English</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                            <div class="language-option" onclick="changeLanguage('mr')">
+                                <span class="flag-icon">🇮🇳</span>
+                                <span>मराठी</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                            <div class="language-option" onclick="changeLanguage('hi')">
+                                <span class="flag-icon">🇮🇳</span>
+                                <span>हिन्दी</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                            <div class="language-option" onclick="changeLanguage('ta')">
+                                <span class="flag-icon">🇮🇳</span>
+                                <span>தமிழ்</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Google Translate (Hidden) -->
+                    <div id="google_translate_element" style="display: none;"></div>
+
+                    <!-- Auth Buttons -->
+                    <div class="auth-buttons" id="authButtons">
+                        <a href="login.html" class="btn btn-outline btn-sm">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </a>
+                        <a href="register.html" class="btn btn-primary btn-sm">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Sign Up</span>
+                        </a>
+                    </div>
+
+                    <!-- User Profile (When Logged In) -->
+                    <div class="user-profile" id="userProfile" style="display: none;">
+                        <div class="user-dropdown" onclick="toggleUserDropdown()">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span class="user-name">John Doe</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="user-dropdown-menu" id="userDropdown">
+                            <a href="profile.php" class="dropdown-item">
+                                <i class="fas fa-user"></i> My Profile
+                            </a>
+                            <a href="dashboard.php" class="dropdown-item">
+                                <i class="fas fa-chart-line"></i> Dashboard
+                            </a>
+                            <a href="my-products.html" class="dropdown-item">
+                                <i class="fas fa-box"></i> My Products
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>SmartFarm</span>
+            </div>
+            <button class="close-menu" id="closeMenuBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-menu-links">
+            <a href="index.html" class="mobile-nav-link">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="crops.html" class="mobile-nav-link">
+                <i class="fas fa-leaf"></i> Crops
+            </a>
+            <a href="weather.html" class="mobile-nav-link">
+                <i class="fas fa-cloud-sun"></i> Weather
+            </a>
+            <a href="marketplace.html" class="mobile-nav-link active">
+                <i class="fas fa-store"></i> Marketplace
+            </a>
+            <a href="forum.html" class="mobile-nav-link">
+                <i class="fas fa-users"></i> Community
+            </a>
+            <a href="dashboard.php" class="mobile-nav-link">
+                <i class="fas fa-chart-line"></i> Dashboard
+            </a>
+            
+            <!-- Mobile Language Selector -->
+            <div class="mobile-language-selector">
+                <h4>Select Language</h4>
+                <div class="mobile-language-options">
+                    <button class="mobile-lang-btn active" onclick="changeLanguage('en')">
+                        <span class="flag-icon">🇺🇸</span> English
+                    </button>
+                    <button class="mobile-lang-btn" onclick="changeLanguage('mr')">
+                        <span class="flag-icon">🇮🇳</span> मराठी
+                    </button>
+                    <button class="mobile-lang-btn" onclick="changeLanguage('hi')">
+                        <span class="flag-icon">🇮🇳</span> हिन्दी
+                    </button>
+                    <button class="mobile-lang-btn" onclick="changeLanguage('ta')">
+                        <span class="flag-icon">🇮🇳</span> தமிழ்
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Auth Buttons -->
+            <div class="mobile-auth-buttons">
+                <a href="login.html" class="btn btn-outline">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+                <a href="register.html" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <section class="marketplace-header">
+        <div class="container">
+            <div class="header-content">
+                <h1>Farm Marketplace</h1>
+                <p>Buy and sell agricultural products directly with farmers. No middlemen, better prices.</p>
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Marketplace</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marketplace Stats -->
+    <section class="marketplace-stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>1,500+</h3>
+                        <p>Active Products</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>800+</h3>
+                        <p>Verified Farmers</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>₹50L+</h3>
+                        <p>Total Transactions</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>4.8/5</h3>
+                        <p>Farmer Ratings</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marketplace Controls -->
+    <section class="marketplace-controls">
+        <div class="container">
+            <div class="controls-grid">
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="productSearch" placeholder="Search products, crops, or farmers...">
+                        <button class="btn btn-primary" onclick="searchProducts()">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="openSellModal()">
+                        <i class="fas fa-plus"></i> Sell Product
+                    </button>
+                    <button class="btn btn-outline" onclick="openFilterModal()">
+                        <i class="fas fa-filter"></i> Filter
+                    </button>
+                    <button class="btn btn-outline" onclick="refreshProducts()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quick Filters -->
+            <div class="quick-filters">
+                <div class="filter-tags">
+                    <button class="filter-tag active" onclick="filterByCategory('all')">
+                        <i class="fas fa-th-large"></i> All Products
+                    </button>
+                    <button class="filter-tag" onclick="filterByCategory('vegetables')">
+                        <i class="fas fa-carrot"></i> Vegetables
+                    </button>
+                    <button class="filter-tag" onclick="filterByCategory('fruits')">
+                        <i class="fas fa-apple-alt"></i> Fruits
+                    </button>
+                    <button class="filter-tag" onclick="filterByCategory('grains')">
+                        <i class="fas fa-wheat-awn"></i> Grains
+                    </button>
+                    <button class="filter-tag" onclick="filterByCategory('dairy')">
+                        <i class="fas fa-cheese"></i> Dairy
+                    </button>
+                    <button class="filter-tag" onclick="filterByCategory('equipment')">
+                        <i class="fas fa-tractor"></i> Equipment
+                    </button>
+                </div>
+                
+                <div class="view-controls">
+                    <span class="view-label">Sort by:</span>
+                    <select id="sortProducts" onchange="sortProducts()">
+                        <option value="newest">Newest First</option>
+                        <option value="price_low">Price: Low to High</option>
+                        <option value="price_high">Price: High to Low</option>
+                        <option value="rating">Best Rated</option>
+                        <option value="popular">Most Popular</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Products</h2>
+                <p>Fresh agricultural products from verified farmers</p>
+            </div>
+            
+            <div class="products-grid" id="productsGrid">
+                <!-- Product 1: Organic Tomatoes -->
+                <div class="product-card" data-category="vegetables" data-price="25" data-rating="4.8" data-date="2024-12-03">
+                    <div class="product-badge organic">Organic</div>
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Organic Tomatoes">
+                        <div class="product-actions">
+                            <button class="action-btn favorite" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="action-btn compare" onclick="addToCompare(this)">
+                                <i class="fas fa-balance-scale"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-header">
+                            <h3 class="product-title">Fresh Organic Tomatoes</h3>
+                            <span class="product-rating">
+                                <i class="fas fa-star"></i> 4.8
+                            </span>
+                        </div>
+                        
+                        <div class="product-meta">
+                            <span class="product-farmer">
+                                <i class="fas fa-user"></i> Rajesh Kumar
+                            </span>
+                            <span class="product-location">
+                                <i class="fas fa-map-marker-alt"></i> Nashik, MH
+                            </span>
+                        </div>
+                        
+                        <p class="product-description">
+                            Fresh organic tomatoes grown without pesticides. Perfect for salads, cooking, and sauces.
+                        </p>
+                        
+                        <div class="product-specs">
+                            <span class="spec">
+                                <i class="fas fa-weight"></i> 50 kg available
+                            </span>
+                            <span class="spec">
+                                <i class="fas fa-calendar"></i> Harvested: Today
+                            </span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <div class="product-price">
+                                <span class="price">₹25/kg</span>
+                                <span class="old-price">₹30/kg</span>
+                            </div>
+                            <div class="product-cta">
+                                <button class="btn btn-sm btn-outline" onclick="viewProductDetails('tomatoes')">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="btn btn-sm btn-primary" onclick="contactSeller('tomatoes')">
+                                    <i class="fas fa-shopping-cart"></i> Buy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 2: Basmati Rice -->
+                <div class="product-card" data-category="grains" data-price="65" data-rating="4.9" data-date="2024-12-02">
+                    <div class="product-badge premium">Premium</div>
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Basmati Rice">
+                        <div class="product-actions">
+                            <button class="action-btn favorite" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="action-btn compare" onclick="addToCompare(this)">
+                                <i class="fas fa-balance-scale"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-header">
+                            <h3 class="product-title">Premium Basmati Rice</h3>
+                            <span class="product-rating">
+                                <i class="fas fa-star"></i> 4.9
+                            </span>
+                        </div>
+                        
+                        <div class="product-meta">
+                            <span class="product-farmer">
+                                <i class="fas fa-user"></i> Green Fields Farm
+                            </span>
+                            <span class="product-location">
+                                <i class="fas fa-map-marker-alt"></i> Punjab
+                            </span>
+                        </div>
+                        
+                        <p class="product-description">
+                            Premium quality basmati rice, aged for perfect texture and aroma. Direct from farm.
+                        </p>
+                        
+                        <div class="product-specs">
+                            <span class="spec">
+                                <i class="fas fa-weight"></i> 1000 kg available
+                            </span>
+                            <span class="spec">
+                                <i class="fas fa-certificate"></i> Quality Certified
+                            </span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <div class="product-price">
+                                <span class="price">₹65/kg</span>
+                                <span class="old-price">₹75/kg</span>
+                            </div>
+                            <div class="product-cta">
+                                <button class="btn btn-sm btn-outline" onclick="viewProductDetails('rice')">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="btn btn-sm btn-primary" onclick="contactSeller('rice')">
+                                    <i class="fas fa-shopping-cart"></i> Buy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3: Alphonso Mangoes -->
+                <div class="product-card" data-category="fruits" data-price="180" data-rating="4.7" data-date="2024-12-01">
+                    <div class="product-badge seasonal">Seasonal</div>
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1605027990121-cbae8e07123f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Alphonso Mangoes">
+                        <div class="product-actions">
+                            <button class="action-btn favorite" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="action-btn compare" onclick="addToCompare(this)">
+                                <i class="fas fa-balance-scale"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-header">
+                            <h3 class="product-title">Alphonso Mangoes (Hapus)</h3>
+                            <span class="product-rating">
+                                <i class="fas fa-star"></i> 4.7
+                            </span>
+                        </div>
+                        
+                        <div class="product-meta">
+                            <span class="product-farmer">
+                                <i class="fas fa-user"></i> Devgad Mango Farms
+                            </span>
+                            <span class="product-location">
+                                <i class="fas fa-map-marker-alt"></i> Ratnagiri, MH
+                            </span>
+                        </div>
+                        
+                        <p class="product-description">
+                            King of mangoes! Sweet, fiberless, and aromatic. Direct from Devgad region.
+                        </p>
+                        
+                        <div class="product-specs">
+                            <span class="spec">
+                                <i class="fas fa-weight"></i> 500 kg available
+                            </span>
+                            <span class="spec">
+                                <i class="fas fa-calendar"></i> Season: April-June
+                            </span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <div class="product-price">
+                                <span class="price">₹180/kg</span>
+                                <span class="old-price">₹220/kg</span>
+                            </div>
+                            <div class="product-cta">
+                                <button class="btn btn-sm btn-outline" onclick="viewProductDetails('mangoes')">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="btn btn-sm btn-primary" onclick="contactSeller('mangoes')">
+                                    <i class="fas fa-shopping-cart"></i> Buy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 4: Farm Fresh Milk -->
+                <div class="product-card" data-category="dairy" data-price="55" data-rating="4.6" data-date="2024-11-30">
+                    <div class="product-badge fresh">Fresh</div>
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1563636619-e9143da7973b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Fresh Milk">
+                        <div class="product-actions">
+                            <button class="action-btn favorite" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="action-btn compare" onclick="addToCompare(this)">
+                                <i class="fas fa-balance-scale"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-header">
+                            <h3 class="product-title">Farm Fresh Cow Milk</h3>
+                            <span class="product-rating">
+                                <i class="fas fa-star"></i> 4.6
+                            </span>
+                        </div>
+                        
+                        <div class="product-meta">
+                            <span class="product-farmer">
+                                <i class="fas fa-user"></i> Gokul Dairy Farm
+                            </span>
+                            <span class="product-location">
+                                <i class="fas fa-map-marker-alt"></i> Anand, GJ
+                            </span>
+                        </div>
+                        
+                        <p class="product-description">
+                            Pure, unadulterated cow milk delivered fresh daily. No preservatives or additives.
+                        </p>
+                        
+                        <div class="product-specs">
+                            <span class="spec">
+                                <i class="fas fa-weight"></i> Daily 200 liters
+                            </span>
+                            <span class="spec">
+                                <i class="fas fa-clock"></i> Morning delivery
+                            </span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <div class="product-price">
+                                <span class="price">₹55/liter</span>
+                                <span class="old-price">₹60/liter</span>
+                            </div>
+                            <div class="product-cta">
+                                <button class="btn btn-sm btn-outline" onclick="viewProductDetails('milk')">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="btn btn-sm btn-primary" onclick="contactSeller('milk')">
+                                    <i class="fas fa-shopping-cart"></i> Subscribe
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 5: Tractor Equipment -->
+                <div class="product-card" data-category="equipment" data-price="45000" data-rating="4.5" data-date="2024-11-28">
+                    <div class="product-badge used">Used</div>
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1584556814181-87c5c861d0c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Tractor Equipment">
+                        <div class="product-actions">
+                            <button class="action-btn favorite" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="action-btn compare" onclick="addToCompare(this)">
+                                <i class="fas fa-balance-scale"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-header">
+                            <h3 class="product-title">Tractor Rotavator</h3>
+                            <span class="product-rating">
+                                <i class="fas fa-star"></i> 4.5
+                            </span>
+                        </div>
+                        
+                        <div class="product-meta">
+                            <span class="product-farmer">
+                                <i class="fas fa-user"></i> Farm Equipment Hub
+                            </span>
+                            <span class="product-location">
+                                <i class="fas fa-map-marker-alt"></i> Coimbatore, TN
+                            </span>
+                        </div>
+                        
+                        <p class="product-description">
+                            Used tractor rotavator in good condition. Perfect for soil preparation and tilling.
+                        </p>
+                        
+                        <div class="product-specs">
+                            <span class="spec">
+                                <i class="fas fa-cogs"></i> 6 feet width
+                            </span>
+                            <span class="spec">
+                                <i class="fas fa-history"></i> Used: 2 years
+                            </span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <div class="product-price">
+                                <span class="price">₹45,000</span>
+                                <span class="old-price">₹60,000</span>
+                            </div>
+                            <div class="product-cta">
+                                <button class="btn btn-sm btn-outline" onclick="viewProductDetails('rotavator')">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="btn btn-sm btn-primary" onclick="contactSeller('rotavator')">
+                                    <i class="fas fa-phone-alt"></i> Contact
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 6: Organic Potatoes -->
+                <div class="product-card" data-category="vegetables" data-price="20" data-rating="4.4" data-date="2024-11-25">
+                    <div class="product-badge organic">Organic</div>
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Organic Potatoes">
+                        <div class="product-actions">
+                            <button class="action-btn favorite" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="action-btn compare" onclick="addToCompare(this)">
+                                <i class="fas fa-balance-scale"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-header">
+                            <h3 class="product-title">Organic Potatoes</h3>
+                            <span class="product-rating">
+                                <i class="fas fa-star"></i> 4.4
+                            </span>
+                        </div>
+                        
+                        <div class="product-meta">
+                            <span class="product-farmer">
+                                <i class="fas fa-user"></i> Organic Farms India
+                            </span>
+                            <span class="product-location">
+                                <i class="fas fa-map-marker-alt"></i> Dehradun, UK
+                            </span>
+                        </div>
+                        
+                        <p class="product-description">
+                            Fresh organic potatoes grown in Himalayan soil. Rich flavor and high nutrition.
+                        </p>
+                        
+                        <div class="product-specs">
+                            <span class="spec">
+                                <i class="fas fa-weight"></i> 300 kg available
+                            </span>
+                            <span class="spec">
+                                <i class="fas fa-leaf"></i> Chemical-free
+                            </span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <div class="product-price">
+                                <span class="price">₹20/kg</span>
+                                <span class="old-price">₹25/kg</span>
+                            </div>
+                            <div class="product-cta">
+                                <button class="btn btn-sm btn-outline" onclick="viewProductDetails('potatoes')">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="btn btn-sm btn-primary" onclick="contactSeller('potatoes')">
+                                    <i class="fas fa-shopping-cart"></i> Buy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="load-more">
+                <button class="btn btn-outline" onclick="loadMoreProducts()">
+                    <i class="fas fa-spinner"></i> Load More Products
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Price Trends Section -->
+    <section class="price-trends-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-line"></i> Market Price Trends</h2>
+                <p>Current market rates for popular crops</p>
+            </div>
+            
+            <div class="trends-container">
+                <div class="trends-filters">
+                    <select id="trendCategory" onchange="updatePriceTrends()">
+                        <option value="vegetables">Vegetables</option>
+                        <option value="fruits">Fruits</option>
+                        <option value="grains">Grains</option>
+                        <option value="pulses">Pulses</option>
+                    </select>
+                    
+                    <select id="trendPeriod" onchange="updatePriceTrends()">
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="quarterly">Quarterly</option>
+                    </select>
+                </div>
+                
+                <div class="trends-chart-container">
+                    <canvas id="priceTrendsChart"></canvas>
+                </div>
+                
+                <div class="trends-table">
+                    <h3>Current Market Prices (₹/kg)</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Crop</th>
+                                <th>Min Price</th>
+                                <th>Max Price</th>
+                                <th>Avg Price</th>
+                                <th>Trend</th>
+                            </tr>
+                        </thead>
+                        <tbody id="priceTable">
+                            <tr>
+                                <td>Tomato</td>
+                                <td>₹18</td>
+                                <td>₹32</td>
+                                <td>₹25</td>
+                                <td class="trend-up"><i class="fas fa-arrow-up"></i> 12%</td>
+                            </tr>
+                            <tr>
+                                <td>Onion</td>
+                                <td>₹22</td>
+                                <td>₹35</td>
+                                <td>₹28</td>
+                                <td class="trend-down"><i class="fas fa-arrow-down"></i> 5%</td>
+                            </tr>
+                            <tr>
+                                <td>Potato</td>
+                                <td>₹15</td>
+                                <td>₹25</td>
+                                <td>₹20</td>
+                                <td class="trend-stable"><i class="fas fa-minus"></i> Stable</td>
+                            </tr>
+                            <tr>
+                                <td>Rice</td>
+                                <td>₹55</td>
+                                <td>₹75</td>
+                                <td>₹65</td>
+                                <td class="trend-up"><i class="fas fa-arrow-up"></i> 8%</td>
+                            </tr>
+                            <tr>
+                                <td>Wheat</td>
+                                <td>₹22</td>
+                                <td>₹28</td>
+                                <td>₹25</td>
+                                <td class="trend-stable"><i class="fas fa-minus"></i> Stable</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Farmers -->
+    <section class="farmers-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-user-check"></i> Featured Farmers</h2>
+                <p>Verified farmers with excellent ratings</p>
+            </div>
+            
+            <div class="farmers-grid">
+                <div class="farmer-card">
+                    <div class="farmer-avatar">
+                        <img src="https://images.unsplash.com/photo-1586773860418-dc22f8b874bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Rajesh Kumar">
+                        <span class="verification-badge">
+                            <i class="fas fa-check-circle"></i>
+                        </span>
+                    </div>
+                    <div class="farmer-info">
+                        <h3>Rajesh Kumar</h3>
+                        <p class="farmer-location">
+                            <i class="fas fa-map-marker-alt"></i> Nashik, Maharashtra
+                        </p>
+                        <div class="farmer-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>4.8/5</span>
+                        </div>
+                        <p class="farmer-specialization">
+                            <i class="fas fa-seedling"></i> Organic Vegetables
+                        </p>
+                        <div class="farmer-stats">
+                            <div class="stat">
+                                <span class="stat-value">150+</span>
+                                <span class="stat-label">Sales</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">98%</span>
+                                <span class="stat-label">Rating</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline" onclick="viewFarmerProfile('rajesh')">
+                            <i class="fas fa-user"></i> View Profile
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="farmer-card">
+                    <div class="farmer-avatar">
+                        <img src="https://images.unsplash.com/photo-1559131397-f94da358a595?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Priya Sharma">
+                        <span class="verification-badge">
+                            <i class="fas fa-check-circle"></i>
+                        </span>
+                    </div>
+                    <div class="farmer-info">
+                        <h3>Priya Sharma</h3>
+                        <p class="farmer-location">
+                            <i class="fas fa-map-marker-alt"></i> Punjab
+                        </p>
+                        <div class="farmer-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>5.0/5</span>
+                        </div>
+                        <p class="farmer-specialization">
+                            <i class="fas fa-wheat-awn"></i> Grains & Pulses
+                        </p>
+                        <div class="farmer-stats">
+                            <div class="stat">
+                                <span class="stat-value">280+</span>
+                                <span class="stat-label">Sales</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">99%</span>
+                                <span class="stat-label">Rating</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline" onclick="viewFarmerProfile('priya')">
+                            <i class="fas fa-user"></i> View Profile
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="farmer-card">
+                    <div class="farmer-avatar">
+                        <img src="https://images.unsplash.com/photo-1601315379734-425a5dbb4c2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Amit Patel">
+                        <span class="verification-badge">
+                            <i class="fas fa-check-circle"></i>
+                        </span>
+                    </div>
+                    <div class="farmer-info">
+                        <h3>Amit Patel</h3>
+                        <p class="farmer-location">
+                            <i class="fas fa-map-marker-alt"></i> Gujarat
+                        </p>
+                        <div class="farmer-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>4.7/5</span>
+                        </div>
+                        <p class="farmer-specialization">
+                            <i class="fas fa-cheese"></i> Dairy Products
+                        </p>
+                        <div class="farmer-stats">
+                            <div class="stat">
+                                <span class="stat-value">320+</span>
+                                <span class="stat-label">Sales</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">97%</span>
+                                <span class="stat-label">Rating</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline" onclick="viewFarmerProfile('amit')">
+                            <i class="fas fa-user"></i> View Profile
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-play-circle"></i> How It Works</h2>
+                <p>Simple steps to buy and sell on our marketplace</p>
+            </div>
+            
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h3>Create Account</h3>
+                    <p>Register as a farmer or buyer. Get verified for trust and security.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <h3>List Products</h3>
+                    <p>Sellers can list their products with photos, prices, and descriptions.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Browse & Search</h3>
+                    <p>Buyers can search, filter, and compare products from verified farmers.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Connect & Transact</h3>
+                    <p>Connect directly with farmers. Negotiate prices and arrange delivery.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">5</div>
+                    <div class="step-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Rate & Review</h3>
+                    <p>Share your experience. Help build a trusted farming community.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits-section">
+        <div class="container">
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <h3>Better Prices</h3>
+                    <p>No middlemen means farmers get better prices and buyers save money.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Verified Farmers</h3>
+                    <p>All farmers are verified for authenticity and quality assurance.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Direct Delivery</h3>
+                    <p>Fresh products delivered directly from farm to your location.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Round-the-clock customer support for any issues or queries.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-comment"></i> What Farmers Say</h2>
+                <p>Success stories from our farming community</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"SmartFarm marketplace helped me sell my organic tomatoes at 30% better prices than local markets. The platform is easy to use and the support team is very helpful."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://images.unsplash.com/photo-1586773860418-dc22f8b874bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Rajesh Kumar">
+                        </div>
+                        <div class="author-info">
+                            <h4>Rajesh Kumar</h4>
+                            <p>Organic Farmer, Nashik</p>
+                            <div class="author-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"As a buyer, I get fresh vegetables directly from farmers at reasonable prices. The quality is much better than local markets. Highly recommended!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b786d4d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Anjali Mehta">
+                        </div>
+                        <div class="author-info">
+                            <h4>Anjali Mehta</h4>
+                            <p>Restaurant Owner, Mumbai</p>
+                            <div class="author-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"The price trends feature helps me decide when to sell my crops for maximum profit. This platform has transformed my farming business."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://images.unsplash.com/photo-1559131397-f94da358a595?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Priya Sharma">
+                        </div>
+                        <div class="author-info">
+                            <h4>Priya Sharma</h4>
+                            <p>Grain Farmer, Punjab</p>
+                            <div class="author-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="marketplace-cta">
+        <div class="container">
+            <div class="cta-card">
+                <div class="cta-content">
+                    <h2>Ready to Start Trading?</h2>
+                    <p>Join thousands of farmers and buyers in India's largest agricultural marketplace.</p>
+                    
+                    <div class="cta-buttons">
+                        <button class="btn btn-primary btn-lg" onclick="openSellModal()">
+                            <i class="fas fa-plus"></i> Start Selling
+                        </button>
+                        <button class="btn btn-outline btn-lg" onclick="window.location.href='register.html'">
+                            <i class="fas fa-user-plus"></i> Join as Buyer
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="cta-image">
+                    <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Farm Products">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <i class="fas fa-seedling"></i>
+                        <span>SmartFarm</span>
+                    </div>
+                    <p class="footer-description">
+                        Empowering farmers with modern technology and community support for sustainable agriculture.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Marketplace</h3>
+                    <ul class="footer-links">
+                        <li><a href="marketplace.html">All Products</a></li>
+                        <li><a href="vegetables.html">Vegetables</a></li>
+                        <li><a href="fruits.html">Fruits</a></li>
+                        <li><a href="grains.html">Grains</a></li>
+                        <li><a href="equipment.html">Equipment</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Contact Us</h3>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>marketplace@smartfarm.com</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+91 98765 43210</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Farm Street, Agriculture City, India</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Smart Farming System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            <div class="chatbot-title">
+                <i class="fas fa-robot"></i>
+                <h3>Marketplace Assistant</h3>
+                <span class="chatbot-status online"></span>
+            </div>
+            <button class="chatbot-close" onclick="closeChatbot()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="chatbot-body" id="chatbotBody">
+            <div class="chat-message bot">
+                <div class="message-content">
+                    Hello! I'm your marketplace assistant. I can help you find products, compare prices, or connect with farmers.
+                </div>
+                <div class="message-time">Just now</div>
+            </div>
+        </div>
+        
+        <div class="chatbot-input">
+            <input type="text" id="chatInput" placeholder="Ask about products, prices, or farmers...">
+            <button id="sendMessage" onclick="sendChatMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Chatbot Toggle Button -->
+    <button class="chatbot-toggle" onclick="toggleChatbot()">
+        <i class="fas fa-robot"></i>
+        <span class="chatbot-notification"></span>
+    </button>
+
+    <!-- Sell Product Modal -->
+    <div class="modal" id="sellModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-plus"></i> Sell Your Product</h2>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="sell-form" id="sellForm">
+                    <div class="form-section">
+                        <h3>Product Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label><i class="fas fa-tag"></i> Product Name *</label>
+                                <input type="text" placeholder="e.g., Organic Tomatoes" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label><i class="fas fa-layer-group"></i> Category *</label>
+                                <select required>
+                                    <option value="">Select Category</option>
+                                    <option value="vegetables">Vegetables</option>
+                                    <option value="fruits">Fruits</option>
+                                    <option value="grains">Grains</option>
+                                    <option value="pulses">Pulses</option>
+                                    <option value="dairy">Dairy</option>
+                                    <option value="equipment">Equipment</option>
+                                    <option value="seeds">Seeds</option>
+                                    <option value="fertilizers">Fertilizers</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-align-left"></i> Description *</label>
+                            <textarea rows="4" placeholder="Describe your product in detail..." required></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Pricing & Quantity</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label><i class="fas fa-rupee-sign"></i> Price per Unit *</label>
+                                <input type="number" placeholder="e.g., 25" required>
+                                <div class="input-suffix">₹</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label><i class="fas fa-balance-scale"></i> Unit *</label>
+                                <select required>
+                                    <option value="kg">per kg</option>
+                                    <option value="liter">per liter</option>
+                                    <option value="piece">per piece</option>
+                                    <option value="bag">per bag</option>
+                                    <option value="ton">per ton</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label><i class="fas fa-box"></i> Available Quantity *</label>
+                                <input type="number" placeholder="e.g., 100" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label><i class="fas fa-weight"></i> Minimum Order</label>
+                                <input type="number" placeholder="e.g., 10">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Product Images</h3>
+                        <div class="image-upload">
+                            <div class="upload-area" id="uploadArea">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Click to upload product images</p>
+                                <span>Maximum 5 images (JPEG, PNG)</span>
+                                <input type="file" id="productImages" accept="image/*" multiple hidden>
+                            </div>
+                            <div class="image-preview" id="imagePreview"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Location & Delivery</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label><i class="fas fa-map-marker-alt"></i> Location *</label>
+                                <input type="text" placeholder="City, State" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label><i class="fas fa-truck"></i> Delivery Options</label>
+                                <div class="checkbox-group">
+                                    <label>
+                                        <input type="checkbox" checked> Self Pickup
+                                    </label>
+                                    <label>
+                                        <input type="checkbox"> Home Delivery
+                                    </label>
+                                    <label>
+                                        <input type="checkbox"> Shipping
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-upload"></i> List Product
+                        </button>
+                        <button type="button" class="btn btn-outline" onclick="closeModal()">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Details Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content product-modal">
+            <div class="modal-header">
+                <h2 id="modalProductName">Product Details</h2>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Product details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div class="modal" id="filterModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-filter"></i> Filter Products</h2>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="filter-options">
+                    <div class="filter-group">
+                        <h3>Price Range (₹)</h3>
+                        <div class="price-range">
+                            <input type="range" min="0" max="1000" value="0" id="priceMin" onchange="updatePriceRange()">
+                            <input type="range" min="0" max="1000" value="1000" id="priceMax" onchange="updatePriceRange()">
+                            <div class="price-values">
+                                <span id="minPriceValue">0</span> - 
+                                <span id="maxPriceValue">1000</span> ₹
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h3>Location</h3>
+                        <div class="location-filters">
+                            <select id="stateFilter">
+                                <option value="">All States</option>
+                                <option value="maharashtra">Maharashtra</option>
+                                <option value="punjab">Punjab</option>
+                                <option value="gujarat">Gujarat</option>
+                                <option value="tamilnadu">Tamil Nadu</option>
+                                <option value="karnataka">Karnataka</option>
+                            </select>
+                            
+                            <input type="text" id="cityFilter" placeholder="Enter city...">
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h3>Product Condition</h3>
+                        <div class="condition-filters">
+                            <label>
+                                <input type="checkbox" value="organic"> Organic
+                            </label>
+                            <label>
+                                <input type="checkbox" value="fresh"> Fresh
+                            </label>
+                            <label>
+                                <input type="checkbox" value="premium"> Premium
+                            </label>
+                            <label>
+                                <input type="checkbox" value="seasonal"> Seasonal
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h3>Seller Rating</h3>
+                        <div class="rating-filters">
+                            <label>
+                                <input type="radio" name="rating" value="4"> 4+ Stars & above
+                            </label>
+                            <label>
+                                <input type="radio" name="rating" value="3"> 3+ Stars & above
+                            </label>
+                            <label>
+                                <input type="radio" name="rating" value="2"> 2+ Stars & above
+                            </label>
+                            <label>
+                                <input type="radio" name="rating" value="1"> Any Rating
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-actions">
+                    <button class="btn btn-primary" onclick="applyFilters()">
+                        Apply Filters
+                    </button>
+                    <button class="btn btn-outline" onclick="resetFilters()">
+                        Reset All
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,mr,hi,ta',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    
+    <!-- Chart.js for price trends -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script src="script.js"></script>
+    <script src="marketplace.js"></script>
+</body>
+</html>

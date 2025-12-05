@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Crops Information | Smart Farming System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="crops.css">
+</head>
+<body>
+    <!-- Main Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span class="logo-text">SmartFarm</span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="crops.html" class="nav-link active">
+                        <i class="fas fa-leaf"></i>
+                        <span>Crops</span>
+                    </a>
+                    <a href="weather.html" class="nav-link">
+                        <i class="fas fa-cloud-sun"></i>
+                        <span>Weather</span>
+                    </a>
+                    <a href="marketplace.html" class="nav-link">
+                        <i class="fas fa-store"></i>
+                        <span>Marketplace</span>
+                    </a>
+                    <a href="forum.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>Community</span>
+                    </a>
+                    <a href="dashboard.php" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+
+                <!-- Header Right Section -->
+                <div class="header-right">
+                    <!-- Language Selector -->
+                    <div class="language-selector" id="languageSelector">
+                        <button class="language-btn" onclick="toggleLanguageDropdown()">
+                            <i class="fas fa-language"></i>
+                            <span id="currentLanguage">EN</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="language-dropdown" id="languageDropdown">
+                            <div class="language-option" onclick="changeLanguage('en')">
+                                <span class="flag-icon">🇺🇸</span>
+                                <span>English</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                            <div class="language-option" onclick="changeLanguage('mr')">
+                                <span class="flag-icon">🇮🇳</span>
+                                <span>मराठी</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                            <div class="language-option" onclick="changeLanguage('hi')">
+                                <span class="flag-icon">🇮🇳</span>
+                                <span>हिन्दी</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                            <div class="language-option" onclick="changeLanguage('ta')">
+                                <span class="flag-icon">🇮🇳</span>
+                                <span>தமிழ்</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Google Translate (Hidden) -->
+                    <div id="google_translate_element" style="display: none;"></div>
+
+                    <!-- Auth Buttons -->
+                    <div class="auth-buttons" id="authButtons">
+                        <a href="login.html" class="btn btn-outline btn-sm">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </a>
+                        <a href="register.html" class="btn btn-primary btn-sm">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Sign Up</span>
+                        </a>
+                    </div>
+
+                    <!-- User Profile (When Logged In) -->
+                    <div class="user-profile" id="userProfile" style="display: none;">
+                        <div class="user-dropdown" onclick="toggleUserDropdown()">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span class="user-name">John Doe</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="user-dropdown-menu" id="userDropdown">
+                            <a href="profile.php" class="dropdown-item">
+                                <i class="fas fa-user"></i> My Profile
+                            </a>
+                            <a href="dashboard.php" class="dropdown-item">
+                                <i class="fas fa-chart-line"></i> Dashboard
+                            </a>
+                            <a href="settings.html" class="dropdown-item">
+                                <i class="fas fa-cog"></i> Settings
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>SmartFarm</span>
+            </div>
+            <button class="close-menu" id="closeMenuBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-menu-links">
+            <a href="index.html" class="mobile-nav-link">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="crops.html" class="mobile-nav-link active">
+                <i class="fas fa-leaf"></i> Crops
+            </a>
+            <a href="weather.html" class="mobile-nav-link">
+                <i class="fas fa-cloud-sun"></i> Weather
+            </a>
+            <a href="marketplace.html" class="mobile-nav-link">
+                <i class="fas fa-store"></i> Marketplace
+            </a>
+            <a href="forum.html" class="mobile-nav-link">
+                <i class="fas fa-users"></i> Community
+            </a>
+            <a href="dashboard.php" class="mobile-nav-link">
+                <i class="fas fa-chart-line"></i> Dashboard
+            </a>
+            
+            <!-- Mobile Language Selector -->
+            <div class="mobile-language-selector">
+                <h4>Select Language</h4>
+                <div class="mobile-language-options">
+                    <button class="mobile-lang-btn active" onclick="changeLanguage('en')">
+                        <span class="flag-icon">🇺🇸</span> English
+                    </button>
+                    <button class="mobile-lang-btn" onclick="changeLanguage('mr')">
+                        <span class="flag-icon">🇮🇳</span> मराठी
+                    </button>
+                    <button class="mobile-lang-btn" onclick="changeLanguage('hi')">
+                        <span class="flag-icon">🇮🇳</span> हिन्दी
+                    </button>
+                    <button class="mobile-lang-btn" onclick="changeLanguage('ta')">
+                        <span class="flag-icon">🇮🇳</span> தமிழ்
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Auth Buttons -->
+            <div class="mobile-auth-buttons">
+                <a href="login.html" class="btn btn-outline">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+                <a href="register.html" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="header-content">
+                <h1>Crops Information</h1>
+                <p>Complete guide to crop cultivation, diseases, treatments, and best practices</p>
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Crops</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search & Filter Section -->
+    <section class="crops-search-section">
+        <div class="container">
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="cropSearch" placeholder="Search crops by name, season, or disease...">
+                    <button class="btn btn-primary" onclick="searchCrops()">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+                
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <label><i class="fas fa-filter"></i> Filter By:</label>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">All Crops</button>
+                            <button class="filter-btn" data-filter="season">Season</button>
+                            <button class="filter-btn" data-filter="category">Category</button>
+                            <button class="filter-btn" data-filter="disease">Diseases</button>
+                        </div>
+                    </div>
+                    
+                    <div class="dropdown-filters">
+                        <select id="seasonFilter" class="filter-select" onchange="filterBySeason()">
+                            <option value="">All Seasons</option>
+                            <option value="kharif">Kharif (Monsoon)</option>
+                            <option value="rabi">Rabi (Winter)</option>
+                            <option value="zaid">Zaid (Summer)</option>
+                        </select>
+                        
+                        <select id="categoryFilter" class="filter-select" onchange="filterByCategory()">
+                            <option value="">All Categories</option>
+                            <option value="cereals">Cereals</option>
+                            <option value="pulses">Pulses</option>
+                            <option value="vegetables">Vegetables</option>
+                            <option value="fruits">Fruits</option>
+                            <option value="cash">Cash Crops</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Crops Grid Section -->
+    <section class="crops-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Popular Crops</h2>
+                <p>Select a crop to view detailed information</p>
+            </div>
+            
+            <div class="crops-grid" id="cropsGrid">
+                <!-- Rice -->
+                <div class="crop-card" data-season="kharif" data-category="cereals" data-diseases="true">
+                    <div class="crop-image">
+                        <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Rice">
+                        <span class="crop-season kharif">Kharif</span>
+                    </div>
+                    <div class="crop-info">
+                        <h3 class="crop-name">Rice</h3>
+                        <p class="crop-scientific">Oryza sativa</p>
+                        <div class="crop-meta">
+                            <span><i class="fas fa-calendar"></i> 90-120 days</span>
+                            <span><i class="fas fa-temperature-high"></i> 20-35°C</span>
+                        </div>
+                        <p class="crop-description">Staple food crop requiring abundant water. Grown in tropical and subtropical regions.</p>
+                        <div class="crop-actions">
+                            <button class="btn btn-sm btn-outline" onclick="viewCropDetails('rice')">
+                                <i class="fas fa-eye"></i> View Details
+                            </button>
+                            <button class="btn btn-sm btn-primary" onclick="openDiseaseInfo('rice')">
+                                <i class="fas fa-bug"></i> Diseases
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Wheat -->
+                <div class="crop-card" data-season="rabi" data-category="cereals" data-diseases="true">
+                    <div class="crop-image">
+                        <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Wheat">
+                        <span class="crop-season rabi">Rabi</span>
+                    </div>
+                    <div class="crop-info">
+                        <h3 class="crop-name">Wheat</h3>
+                        <p class="crop-scientific">Triticum aestivum</p>
+                        <div class="crop-meta">
+                            <span><i class="fas fa-calendar"></i> 100-120 days</span>
+                            <span><i class="fas fa-temperature-high"></i> 15-25°C</span>
+                        </div>
+                        <p class="crop-description">Major rabi crop, rich in protein. Requires cool climate during growing season.</p>
+                        <div class="crop-actions">
+                            <button class="btn btn-sm btn-outline" onclick="viewCropDetails('wheat')">
+                                <i class="fas fa-eye"></i> View Details
+                            </button>
+                            <button class="btn btn-sm btn-primary" onclick="openDiseaseInfo('wheat')">
+                                <i class="fas fa-bug"></i> Diseases
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sugarcane -->
+                <div class="crop-card" data-season="all" data-category="cash" data-diseases="true">
+                    <div class="crop-image">
+                        <img src="https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Sugarcane">
+                        <span class="crop-season zaid">Year-round</span>
+                    </div>
+                    <div class="crop-info">
+                        <h3 class="crop-name">Sugarcane</h3>
+                        <p class="crop-scientific">Saccharum officinarum</p>
+                        <div class="crop-meta">
+                            <span><i class="fas fa-calendar"></i> 12-18 months</span>
+                            <span><i class="fas fa-temperature-high"></i> 20-30°C</span>
+                        </div>
+                        <p class="crop-description">Tall perennial grass used for sugar production. Requires tropical climate.</p>
+                        <div class="crop-actions">
+                            <button class="btn btn-sm btn-outline" onclick="viewCropDetails('sugarcane')">
+                                <i class="fas fa-eye"></i> View Details
+                            </button>
+                            <button class="btn btn-sm btn-primary" onclick="openDiseaseInfo('sugarcane')">
+                                <i class="fas fa-bug"></i> Diseases
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cotton -->
+                <div class="crop-card" data-season="kharif" data-category="cash" data-diseases="true">
+                    <div class="crop-image">
+                        <img src="https://images.unsplash.com/photo-1593941707882-a5bba5338fe2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Cotton">
+                        <span class="crop-season kharif">Kharif</span>
+                    </div>
+                    <div class="crop-info">
+                        <h3 class="crop-name">Cotton</h3>
+                        <p class="crop-scientific">Gossypium hirsutum</p>
+                        <div class="crop-meta">
+                            <span><i class="fas fa-calendar"></i> 150-180 days</span>
+                            <span><i class="fas fa-temperature-high"></i> 25-35°C</span>
+                        </div>
+                        <p class="crop-description">Fiber crop requiring warm climate. Major cash crop in many regions.</p>
+                        <div class="crop-actions">
+                            <button class="btn btn-sm btn-outline" onclick="viewCropDetails('cotton')">
+                                <i class="fas fa-eye"></i> View Details
+                            </button>
+                            <button class="btn btn-sm btn-primary" onclick="openDiseaseInfo('cotton')">
+                                <i class="fas fa-bug"></i> Diseases
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tomato -->
+                <div class="crop-card" data-season="rabi" data-category="vegetables" data-diseases="true">
+                    <div class="crop-image">
+                        <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Tomato">
+                        <span class="crop-season rabi">Rabi</span>
+                    </div>
+                    <div class="crop-info">
+                        <h3 class="crop-name">Tomato</h3>
+                        <p class="crop-scientific">Solanum lycopersicum</p>
+                        <div class="crop-meta">
+                            <span><i class="fas fa-calendar"></i> 70-90 days</span>
+                            <span><i class="fas fa-temperature-high"></i> 18-27°C</span>
+                        </div>
+                        <p class="crop-description">Popular vegetable crop. Can be grown year-round in controlled conditions.</p>
+                        <div class="crop-actions">
+                            <button class="btn btn-sm btn-outline" onclick="viewCropDetails('tomato')">
+                                <i class="fas fa-eye"></i> View Details
+                            </button>
+                            <button class="btn btn-sm btn-primary" onclick="openDiseaseInfo('tomato')">
+                                <i class="fas fa-bug"></i> Diseases
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mango -->
+                <div class="crop-card" data-season="all" data-category="fruits" data-diseases="true">
+                    <div class="crop-image">
+                        <img src="https://images.unsplash.com/photo-1605027990121-cbae8e07123f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Mango">
+                        <span class="crop-season zaid">Year-round</span>
+                    </div>
+                    <div class="crop-info">
+                        <h3 class="crop-name">Mango</h3>
+                        <p class="crop-scientific">Mangifera indica</p>
+                        <div class="crop-meta">
+                            <span><i class="fas fa-calendar"></i> 3-5 years</span>
+                            <span><i class="fas fa-temperature-high"></i> 24-30°C</span>
+                        </div>
+                        <p class="crop-description">King of fruits. Requires tropical climate with distinct dry season.</p>
+                        <div class="crop-actions">
+                            <button class="btn btn-sm btn-outline" onclick="viewCropDetails('mango')">
+                                <i class="fas fa-eye"></i> View Details
+                            </button>
+                            <button class="btn btn-sm btn-primary" onclick="openDiseaseInfo('mango')">
+                                <i class="fas fa-bug"></i> Diseases
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Chickpea -->
+                <div class="crop-card" data-season="rabi" data-category="pulses" data-diseases="true">
+                    <div class="crop-image">
+                        <img src="https://images.unsplash.com/photo-1589987607621-8d6c38e1e56c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Chickpea">
+                        <span class="crop-season rabi">Rabi</span>
+                    </div>
+                    <div class="crop-info">
+                        <h3 class="crop-name">Chickpea</h3>
+                        <p class="crop-scientific">Cicer arietinum</p>
+                        <div class="crop-meta">
+                            <span><i class="fas fa-calendar"></i> 90-120 days</span>
+                            <span><i class="fas fa-temperature-high"></i> 15-25°C</span>
+                        </div>
+                        <p class="crop-description">Protein-rich pulse crop. Tolerates drought conditions well.</p>
+                        <div class="crop-actions">
+                            <button class="btn btn-sm btn-outline" onclick="viewCropDetails('chickpea')">
+                                <i class="fas fa-eye"></i> View Details
+                            </button>
+                            <button class="btn btn-sm btn-primary" onclick="openDiseaseInfo('chickpea')">
+                                <i class="fas fa-bug"></i> Diseases
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Potato -->
+                <div class="crop-card" data-season="rabi" data-category="vegetables" data-diseases="true">
+                    <div class="crop-image">
+                        <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Potato">
+                        <span class="crop-season rabi">Rabi</span>
+                    </div>
+                    <div class="crop-info">
+                        <h3 class="crop-name">Potato</h3>
+                        <p class="crop-scientific">Solanum tuberosum</p>
+                        <div class="crop-meta">
+                            <span><i class="fas fa-calendar"></i> 80-100 days</span>
+                            <span><i class="fas fa-temperature-high"></i> 15-20°C</span>
+                        </div>
+                        <p class="crop-description">Cool-season crop. Rich in carbohydrates and widely consumed worldwide.</p>
+                        <div class="crop-actions">
+                            <button class="btn btn-sm btn-outline" onclick="viewCropDetails('potato')">
+                                <i class="fas fa-eye"></i> View Details
+                            </button>
+                            <button class="btn btn-sm btn-primary" onclick="openDiseaseInfo('potato')">
+                                <i class="fas fa-bug"></i> Diseases
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="view-all">
+                <button class="btn btn-outline" onclick="loadAllCrops()">
+                    <i class="fas fa-seedling"></i> View All Crops (24+)
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Crop Disease Information Section -->
+    <section class="disease-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Crop Diseases & Treatments</h2>
+                <p>Identify and treat common crop diseases</p>
+            </div>
+            
+            <div class="disease-tabs">
+                <button class="disease-tab active" onclick="showDiseaseTab('common')">
+                    <i class="fas fa-bug"></i> Common Diseases
+                </button>
+                <button class="disease-tab" onclick="showDiseaseTab('prevention')">
+                    <i class="fas fa-shield-alt"></i> Prevention
+                </button>
+                <button class="disease-tab" onclick="showDiseaseTab('treatment')">
+                    <i class="fas fa-prescription-bottle-alt"></i> Treatments
+                </button>
+            </div>
+            
+            <div class="disease-content">
+                <div class="disease-tab-content active" id="commonDiseases">
+                    <div class="disease-grid">
+                        <div class="disease-card">
+                            <div class="disease-header">
+                                <h3><i class="fas fa-skull-crossbones"></i> Blast Disease</h3>
+                                <span class="disease-crop">Rice</span>
+                            </div>
+                            <div class="disease-info">
+                                <p><strong>Symptoms:</strong> Spindle-shaped spots on leaves, neck rot</p>
+                                <p><strong>Cause:</strong> Fungus (Magnaporthe grisea)</p>
+                                <div class="disease-treatment">
+                                    <span class="treatment-label">Treatment:</span>
+                                    <span class="treatment-name">Tricyclazole, Azoxystrobin</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="disease-card">
+                            <div class="disease-header">
+                                <h3><i class="fas fa-skull-crossbones"></i> Rust</h3>
+                                <span class="disease-crop">Wheat</span>
+                            </div>
+                            <div class="disease-info">
+                                <p><strong>Symptoms:</strong> Orange-brown pustules on leaves</p>
+                                <p><strong>Cause:</strong> Fungus (Puccinia spp.)</p>
+                                <div class="disease-treatment">
+                                    <span class="treatment-label">Treatment:</span>
+                                    <span class="treatment-name">Propiconazole, Tebuconazole</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="disease-card">
+                            <div class="disease-header">
+                                <h3><i class="fas fa-skull-crossbones"></i> Late Blight</h3>
+                                <span class="disease-crop">Potato/Tomato</span>
+                            </div>
+                            <div class="disease-info">
+                                <p><strong>Symptoms:</strong> Dark lesions on leaves, fruit rot</p>
+                                <p><strong>Cause:</strong> Fungus (Phytophthora infestans)</p>
+                                <div class="disease-treatment">
+                                    <span class="treatment-label">Treatment:</span>
+                                    <span class="treatment-name">Metalaxyl, Chlorothalonil</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="disease-tab-content" id="preventionTips">
+                    <div class="prevention-tips">
+                        <div class="tip-card">
+                            <div class="tip-icon">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <h3>Use Resistant Varieties</h3>
+                            <p>Plant disease-resistant crop varieties suited to your region.</p>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="tip-icon">
+                                <i class="fas fa-crop-alt"></i>
+                            </div>
+                            <h3>Crop Rotation</h3>
+                            <p>Rotate crops to break disease cycles and reduce pathogen buildup.</p>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="tip-icon">
+                                <i class="fas fa-hand-sparkles"></i>
+                            </div>
+                            <h3>Sanitation</h3>
+                            <p>Remove infected plant debris and clean tools regularly.</p>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="tip-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <h3>Proper Irrigation</h3>
+                            <p>Avoid overhead watering to reduce leaf wetness duration.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="disease-tab-content" id="treatmentMethods">
+                    <div class="treatment-guide">
+                        <div class="treatment-category">
+                            <h3><i class="fas fa-leaf"></i> Organic Treatments</h3>
+                            <ul>
+                                <li><strong>Neem Oil:</strong> Effective against many fungal diseases</li>
+                                <li><strong>Baking Soda Spray:</strong> For powdery mildew control</li>
+                                <li><strong>Garlic-Chili Spray:</strong> Natural insect repellent</li>
+                                <li><strong>Copper Fungicide:</strong> Approved organic treatment</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="treatment-category">
+                            <h3><i class="fas fa-flask"></i> Chemical Treatments</h3>
+                            <ul>
+                                <li><strong>Systemic Fungicides:</strong> Absorbed by plants for lasting protection</li>
+                                <li><strong>Contact Fungicides:</strong> Protect plant surfaces</li>
+                                <li><strong>Bactericides:</strong> For bacterial diseases</li>
+                                <li><strong>Always follow label instructions and safety precautions</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Crop Calculator Section -->
+    <section class="calculator-section">
+        <div class="container">
+            <div class="calculator-card">
+                <div class="calculator-header">
+                    <h2><i class="fas fa-calculator"></i> Crop Calculator</h2>
+                    <p>Calculate seed requirements, yield estimates, and profits</p>
+                </div>
+                
+                <div class="calculator-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-leaf"></i> Select Crop</label>
+                            <select id="calculatorCrop">
+                                <option value="rice">Rice</option>
+                                <option value="wheat">Wheat</option>
+                                <option value="cotton">Cotton</option>
+                                <option value="sugarcane">Sugarcane</option>
+                                <option value="tomato">Tomato</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-ruler-combined"></i> Area (Acres)</label>
+                            <input type="number" id="calculatorArea" value="1" min="0.1" step="0.1">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-seedling"></i> Expected Yield (kg/acre)</label>
+                            <input type="number" id="calculatorYield" value="2000">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-rupee-sign"></i> Market Price (₹/kg)</label>
+                            <input type="number" id="calculatorPrice" value="25">
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="calculateCropProfit()">
+                        <i class="fas fa-calculator"></i> Calculate
+                    </button>
+                    
+                    <div class="calculator-results" id="calculatorResults">
+                        <div class="result-item">
+                            <span class="result-label">Total Yield:</span>
+                            <span class="result-value" id="totalYield">0 kg</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Expected Revenue:</span>
+                            <span class="result-value" id="totalRevenue">₹0</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Estimated Profit:</span>
+                            <span class="result-value" id="estimatedProfit">₹0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <i class="fas fa-seedling"></i>
+                        <span>SmartFarm</span>
+                    </div>
+                    <p class="footer-description">
+                        Empowering farmers with modern technology and community support for sustainable agriculture.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="crops.html">Crop Information</a></li>
+                        <li><a href="weather.html">Weather Forecast</a></li>
+                        <li><a href="marketplace.html">Marketplace</a></li>
+                        <li><a href="forum.html">Community Forum</a></li>
+                        <li><a href="dashboard.php">Farmer Dashboard</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Contact Us</h3>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>support@smartfarm.com</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+91 98765 43210</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Farm Street, Agriculture City, India</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Smart Farming System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            <div class="chatbot-title">
+                <i class="fas fa-robot"></i>
+                <h3>Farming Assistant</h3>
+                <span class="chatbot-status online"></span>
+            </div>
+            <button class="chatbot-close" onclick="closeChatbot()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="chatbot-body" id="chatbotBody">
+            <div class="chat-message bot">
+                <div class="message-content">
+                    Hello! I'm your farming assistant. Ask me about crop diseases, treatments, or cultivation practices.
+                </div>
+                <div class="message-time">Just now</div>
+            </div>
+        </div>
+        
+        <div class="chatbot-input">
+            <input type="text" id="chatInput" placeholder="Ask about crop diseases or treatments...">
+            <button id="sendMessage" onclick="sendChatMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Chatbot Toggle Button -->
+    <button class="chatbot-toggle" onclick="toggleChatbot()">
+        <i class="fas fa-robot"></i>
+        <span class="chatbot-notification"></span>
+    </button>
+
+    <!-- Crop Details Modal -->
+    <div class="modal" id="cropModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalCropName">Crop Details</h2>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalCropContent">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,mr,hi,ta',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    
+    <script src="script.js"></script>
+    <script src="crops.js"></script>
+</body>
+</html>

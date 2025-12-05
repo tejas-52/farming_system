@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Smart Farming System | Modern Agriculture Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span class="logo-text">SmartFarm</span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link active">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="crops.html" class="nav-link">
+                        <i class="fas fa-leaf"></i>
+                        <span>Crops</span>
+                    </a>
+                    <a href="weather.html" class="nav-link">
+                        <i class="fas fa-cloud-sun"></i>
+                        <span>Weather</span>
+                    </a>
+                    <a href="marketplace.html" class="nav-link">
+                        <i class="fas fa-store"></i>
+                        <span>Marketplace</span>
+                    </a>
+                    <a href="forum.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>Community</span>
+                    </a>
+                    <a href="dashboard.php" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+
+                <!-- Header Right Section -->
+                <div class="header-right">
+                    <!-- Language Selector -->
+                    <div class="language-selector" id="languageSelector">
+                        <button class="language-btn" onclick="toggleLanguageDropdown()">
+                            <i class="fas fa-language"></i>
+                            <span id="currentLanguage">EN</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="language-dropdown" id="languageDropdown">
+                            <div class="language-option" onclick="changeLanguage('en')">
+                                <span class="flag-icon">🇺🇸</span>
+                                <span>English</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                            <div class="language-option" onclick="changeLanguage('mr')">
+                                <span class="flag-icon">🇮🇳</span>
+                                <span>मराठी</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                            <div class="language-option" onclick="changeLanguage('hi')">
+                                <span class="flag-icon">🇮🇳</span>
+                                <span>हिन्दी</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                            <div class="language-option" onclick="changeLanguage('ta')">
+                                <span class="flag-icon">🇮🇳</span>
+                                <span>தமிழ்</span>
+                                <i class="fas fa-check" style="display: none;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Google Translate (Hidden) -->
+                    <div id="google_translate_element" style="display: none;"></div>
+
+                    <!-- Auth Buttons -->
+                    <div class="auth-buttons" id="authButtons">
+                        <a href="login.html" class="btn btn-outline btn-sm">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </a>
+                        <a href="register.html" class="btn btn-primary btn-sm">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Sign Up</span>
+                        </a>
+                    </div>
+
+                    <!-- User Profile (When Logged In) -->
+                    <div class="user-profile" id="userProfile" style="display: none;">
+                        <div class="user-dropdown" onclick="toggleUserDropdown()">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span class="user-name">John Doe</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="user-dropdown-menu" id="userDropdown">
+                            <a href="profile.php" class="dropdown-item">
+                                <i class="fas fa-user"></i> My Profile
+                            </a>
+                            <a href="dashboard.php" class="dropdown-item">
+                                <i class="fas fa-chart-line"></i> Dashboard
+                            </a>
+                            <a href="settings.html" class="dropdown-item">
+                                <i class="fas fa-cog"></i> Settings
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>SmartFarm</span>
+            </div>
+            <button class="close-menu" id="closeMenuBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-menu-links">
+            <a href="index.html" class="mobile-nav-link active">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="crops.html" class="mobile-nav-link">
+                <i class="fas fa-leaf"></i> Crops
+            </a>
+            <a href="weather.html" class="mobile-nav-link">
+                <i class="fas fa-cloud-sun"></i> Weather
+            </a>
+            <a href="marketplace.html" class="mobile-nav-link">
+                <i class="fas fa-store"></i> Marketplace
+            </a>
+            <a href="forum.html" class="mobile-nav-link">
+                <i class="fas fa-users"></i> Community
+            </a>
+            <a href="dashboard.php" class="mobile-nav-link">
+                <i class="fas fa-chart-line"></i> Dashboard
+            </a>
+            
+            <!-- Mobile Language Selector -->
+            <div class="mobile-language-selector">
+                <h4>Select Language</h4>
+                <div class="mobile-language-options">
+                    <button class="mobile-lang-btn active" onclick="changeLanguage('en')">
+                        <span class="flag-icon">🇺🇸</span> English
+                    </button>
+                    <button class="mobile-lang-btn" onclick="changeLanguage('mr')">
+                        <span class="flag-icon">🇮🇳</span> मराठी
+                    </button>
+                    <button class="mobile-lang-btn" onclick="changeLanguage('hi')">
+                        <span class="flag-icon">🇮🇳</span> हिन्दी
+                    </button>
+                    <button class="mobile-lang-btn" onclick="changeLanguage('ta')">
+                        <span class="flag-icon">🇮🇳</span> தமிழ்
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Auth Buttons -->
+            <div class="mobile-auth-buttons">
+                <a href="login.html" class="btn btn-outline">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+                <a href="register.html" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rest of your content remains the same -->
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <h1 class="hero-title">Smart Farming Solutions for Modern Agriculture</h1>
+                    <p class="hero-description">Get expert farming guidance, weather forecasts, market prices, and connect with farmers worldwide.</p>
+                    <div class="hero-buttons">
+                        <a href="#features" class="btn btn-primary">
+                            <i class="fas fa-play-circle"></i> Explore Features
+                        </a>
+                        <a href="register.html" class="btn btn-outline">
+                            <i class="fas fa-user-plus"></i> Join Now
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <h3>10,000+</h3>
+                            <p>Farmers</p>
+                        </div>
+                        <div class="stat">
+                            <h3>500+</h3>
+                            <p>Experts</p>
+                        </div>
+                        <div class="stat">
+                            <h3>24/7</h3>
+                            <p>Support</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Modern Farming">
+                    <div class="image-badge">
+                        <i class="fas fa-robot"></i>
+                        AI Powered Farming
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <span class="logo-text">SmartFarm</span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link active">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="crops.html" class="nav-link">
+                        <i class="fas fa-leaf"></i>
+                        <span>Crops</span>
+                    </a>
+                    <a href="weather.html" class="nav-link">
+                        <i class="fas fa-cloud-sun"></i>
+                        <span>Weather</span>
+                    </a>
+                    <a href="marketplace.html" class="nav-link">
+                        <i class="fas fa-store"></i>
+                        <span>Marketplace</span>
+                    </a>
+                    <a href="forum.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>Community</span>
+                    </a>
+                    <a href="dashboard.php" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <!-- Mobile Menu -->
+                <div class="mobile-menu" id="mobileMenu">
+                    <div class="mobile-menu-header">
+                        <div class="logo">
+                            <i class="fas fa-seedling"></i>
+                            <span>SmartFarm</span>
+                        </div>
+                        <button class="close-menu" id="closeMenuBtn">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="mobile-menu-links">
+                        <a href="index.html" class="mobile-nav-link active">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                        <a href="crops.html" class="mobile-nav-link">
+                            <i class="fas fa-leaf"></i> Crops
+                        </a>
+                        <a href="weather.html" class="mobile-nav-link">
+                            <i class="fas fa-cloud-sun"></i> Weather
+                        </a>
+                        <a href="marketplace.html" class="mobile-nav-link">
+                            <i class="fas fa-store"></i> Marketplace
+                        </a>
+                        <a href="forum.html" class="mobile-nav-link">
+                            <i class="fas fa-users"></i> Community
+                        </a>
+                        <a href="dashboard.php" class="mobile-nav-link">
+                            <i class="fas fa-chart-line"></i> Dashboard
+                        </a>
+                        <div class="mobile-auth">
+                            <a href="login.html" class="mobile-auth-link">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                            <a href="register.html" class="mobile-auth-link btn-signup">
+                                <i class="fas fa-user-plus"></i> Sign Up
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <h1 class="hero-title">Smart Farming Solutions for Modern Agriculture</h1>
+                    <p class="hero-description">Get expert farming guidance, weather forecasts, market prices, and connect with farmers worldwide.</p>
+                    <div class="hero-buttons">
+                        <a href="#features" class="btn btn-primary">
+                            <i class="fas fa-play-circle"></i> Explore Features
+                        </a>
+                        <a href="register.html" class="btn btn-outline">
+                            <i class="fas fa-user-plus"></i> Join Now
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <h3>10,000+</h3>
+                            <p>Farmers</p>
+                        </div>
+                        <div class="stat">
+                            <h3>500+</h3>
+                            <p>Experts</p>
+                        </div>
+                        <div class="stat">
+                            <h3>24/7</h3>
+                            <p>Support</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Modern Farming">
+                    <div class="image-badge">
+                        <i class="fas fa-robot"></i>
+                        AI Powered Farming
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Features</h2>
+                <p class="section-subtitle">Everything you need for successful farming</p>
+            </div>
+            
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="feature-title">AI Farming Assistant</h3>
+                    <p class="feature-description">Get instant answers to farming questions, crop advice, and pest solutions.</p>
+                    <a href="#chatbot" class="feature-link" onclick="openChatbot()">
+                        Try Now <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cloud-sun-rain"></i>
+                    </div>
+                    <h3 class="feature-title">Weather Forecast</h3>
+                    <p class="feature-description">Real-time weather updates and farming recommendations for your location.</p>
+                    <a href="weather.html" class="feature-link">
+                        View Forecast <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3 class="feature-title">Crop Management</h3>
+                    <p class="feature-description">Comprehensive crop information, disease detection, and treatment guides.</p>
+                    <a href="crops.html" class="feature-link">
+                        Explore Crops <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3 class="feature-title">Marketplace</h3>
+                    <p class="feature-description">Buy and sell agricultural products directly with fair pricing.</p>
+                    <a href="marketplace.html" class="feature-link">
+                        Visit Market <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <h3 class="feature-title">Soil Analysis</h3>
+                    <p class="feature-description">Soil health reports and fertilizer recommendations for better yield.</p>
+                    <a href="#" class="feature-link">
+                        Test Soil <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="feature-title">Community Forum</h3>
+                    <p class="feature-description">Connect with farmers, share experiences, and get expert advice.</p>
+                    <a href="forum.html" class="feature-link">
+                        Join Discussion <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Weather Widget -->
+    <section class="weather-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Current Weather</h2>
+                <p class="section-subtitle">Real-time weather for your farm location</p>
+            </div>
+            
+            <div class="weather-card">
+                <div class="weather-main">
+                    <div class="weather-icon">
+                        <i class="fas fa-sun" id="weatherIcon"></i>
+                    </div>
+                    <div class="weather-info">
+                        <div class="location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span id="locationText">Loading location...</span>
+                        </div>
+                        <div class="temperature">
+                            <span id="temperatureText">--</span>°C
+                        </div>
+                        <div class="condition" id="conditionText">Loading...</div>
+                    </div>
+                </div>
+                <div class="weather-details">
+                    <div class="weather-detail">
+                        <i class="fas fa-wind"></i>
+                        <div>
+                            <span class="detail-label">Wind</span>
+                            <span class="detail-value" id="windSpeed">-- km/h</span>
+                        </div>
+                    </div>
+                    <div class="weather-detail">
+                        <i class="fas fa-tint"></i>
+                        <div>
+                            <span class="detail-label">Humidity</span>
+                            <span class="detail-value" id="humidityText">--%</span>
+                        </div>
+                    </div>
+                    <div class="weather-detail">
+                        <i class="fas fa-temperature-high"></i>
+                        <div>
+                            <span class="detail-label">Feels Like</span>
+                            <span class="detail-value" id="feelsLike">--°C</span>
+                        </div>
+                    </div>
+                    <div class="weather-detail">
+                        <i class="fas fa-cloud-rain"></i>
+                        <div>
+                            <span class="detail-label">Rain Chance</span>
+                            <span class="detail-value" id="rainChance">--%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="quick-actions">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Quick Actions</h2>
+                <p class="section-subtitle">Get things done quickly</p>
+            </div>
+            
+            <div class="actions-grid">
+                <a href="crops.html" class="action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Crop Search</h3>
+                    <p>Find crop information</p>
+                </a>
+                
+                <a href="weather.html" class="action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-cloud-sun"></i>
+                    </div>
+                    <h3>Weather</h3>
+                    <p>Check forecast</p>
+                </a>
+                
+                <a href="#chatbot" class="action-card" onclick="openChatbot()">
+                    <div class="action-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Ask Assistant</h3>
+                    <p>Get farming advice</p>
+                </a>
+                
+                <a href="marketplace.html" class="action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>Marketplace</h3>
+                    <p>Buy/Sell products</p>
+                </a>
+                
+                <a href="forum.html" class="action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Forum</h3>
+                    <p>Join discussions</p>
+                </a>
+                
+                <a href="contact.html" class="action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Support</h3>
+                    <p>Get help</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <i class="fas fa-seedling"></i>
+                        <span>SmartFarm</span>
+                    </div>
+                    <p class="footer-description">
+                        Empowering farmers with modern technology and community support for sustainable agriculture.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="crops.html">Crop Information</a></li>
+                        <li><a href="weather.html">Weather Forecast</a></li>
+                        <li><a href="marketplace.html">Marketplace</a></li>
+                        <li><a href="forum.html">Community Forum</a></li>
+                        <li><a href="dashboard.php">Farmer Dashboard</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-title">Contact Us</h3>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>support@smartfarm.com</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+91 98765 43210</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Farm Street, Agriculture City, India</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Smart Farming System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            <div class="chatbot-title">
+                <i class="fas fa-robot"></i>
+                <h3>Farming Assistant</h3>
+                <span class="chatbot-status online"></span>
+            </div>
+            <button class="chatbot-close" onclick="closeChatbot()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="chatbot-body" id="chatbotBody">
+            <!-- Messages will be added here -->
+            <div class="chat-message bot">
+                <div class="message-content">
+                    Hello! I'm your farming assistant. How can I help you today with crops, weather, or farming advice?
+                </div>
+                <div class="message-time">Just now</div>
+            </div>
+        </div>
+        
+        <div class="chatbot-input">
+            <input type="text" id="chatInput" placeholder="Type your farming question here...">
+            <button id="sendMessage" onclick="sendChatMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Chatbot Toggle Button -->
+    <button class="chatbot-toggle" onclick="toggleChatbot()">
+        <i class="fas fa-robot"></i>
+        <span class="chatbot-notification"></span>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>

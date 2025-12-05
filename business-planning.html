@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Business Planner | AI-Powered Farming Business Guidance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --primary-dark: #2e7d32;
+            --primary-light: #C8E6C9;
+            --secondary-color: #2196F3;
+            --accent-color: #FF9800;
+            --success-color: #4CAF50;
+            --warning-color: #FFC107;
+            --danger-color: #f44336;
+            --dark-color: #1a1a1a;
+            --gray-color: #666;
+            --light-color: #f8f9fa;
+            --border-color: #ddd;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e8f5e9 100%);
+            min-height: 100vh;
+            color: var(--dark-color);
+        }
+
+        /* Navigation */
+        .business-nav {
+            background: white;
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .nav-logo i {
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: var(--dark-color);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+        }
+
+        /* Main Container */
+        .business-main {
+            max-width: 1400px;
+            margin: 80px auto 0;
+            padding: 30px 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr 350px;
+            gap: 30px;
+        }
+
+        /* Left Sidebar - Steps */
+        .planning-steps-sidebar {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .steps-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+
+        .steps-header h3 {
+            color: var(--primary-dark);
+            font-size: 1.2rem;
+        }
+
+        .step-list {
+            list-style: none;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .step-item:hover {
+            background: var(--light-color);
+            transform: translateX(5px);
+        }
+
+        .step-item.active {
+            background: var(--primary-light);
+            border-left-color: var(--primary-color);
+            color: var(--primary-dark);
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+
+        .step-item.active .step-number {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .step-item.completed .step-number {
+            background: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+        }
+
+        .step-item.completed .step-number::after {
+            content: '✓';
+        }
+
+        .step-info h4 {
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        .step-info p {
+            font-size: 0.85rem;
+            color: var(--gray-color);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            min-height: calc(100vh - 140px);
+        }
+
+        /* AI Assistant Section */
+        .ai-assistant-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .assistant-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .assistant-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .assistant-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        .assistant-title h2 {
+            color: var(--dark-color);
+            font-size: 1.5rem;
+        }
+
+        .assistant-title p {
+            color: var(--gray-color);
+            font-size: 0.95rem;
+        }
+
+        .ai-conversation {
+            background: var(--light-color);
+            border-radius: 15px;
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .message {
+            margin-bottom: 20px;
+            max-width: 80%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.ai {
+            margin-right: auto;
+        }
+
+        .message.user {
+            margin-left: auto;
+        }
+
+        .message-content {
+            padding: 15px 20px;
+            border-radius: 18px;
+            position: relative;
+        }
+
+        .message.ai .message-content {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: var(--gray-color);
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .message.user .message-time {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .input-area {
+            display: flex;
+            gap: 15px;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            resize: none;
+            min-height: 60px;
+            max-height: 120px;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .input-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-icon {
+            width: 50px;
+            height: 50px;
+            padding: 0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--secondary-color), #1976D2);
+            color: white;
+        }
+
+        .btn-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .voice-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .voice-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .voice-btn:hover {
+            border-color: var(--primary-color);
+            background: var(--primary-light);
+        }
+
+        .voice-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Business Idea Generator */
+        .idea-generator {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .generator-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .generator-header i {
+            font-size: 2rem;
+            color: var(--accent-color);
+        }
+
+        .generator-header h3 {
+            color: var(--dark-color);
+            font-size: 1.3rem;
+        }
+
+        .idea-formats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .format-card {
+            background: var(--light-color);
+            border: 2px solid transparent;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .format-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow);
+        }
+
+        .format-card.active {
+            border-color: var(--primary-color);
+            background: var(--primary-light);
+        }
+
+        .format-icon {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .format-card.active .format-icon {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .idea-input {
+            width: 100%;
+            padding: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 20px;
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .idea-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        /* Government Schemes */
+        .schemes-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .section-header h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--dark-color);
+            font-size: 1.3rem;
+        }
+
+        .schemes-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            background: var(--light-color);
+            border: 2px solid transparent;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .schemes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .scheme-card {
+            background: var(--light-color);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border-color);
+        }
+
+        .scheme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .scheme-header {
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+        }
+
+        .scheme-header h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .scheme-category {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .scheme-body {
+            padding: 20px;
+        }
+
+        .scheme-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .scheme-info span {
+            color: var(--gray-color);
+        }
+
+        .scheme-info strong {
+            color: var(--dark-color);
+        }
+
+        .scheme-desc {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        /* Business Calculator */
+        .calculator-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .calculator-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .calc-tab {
+            padding: 10px 25px;
+            background: none;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--gray-color);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .calc-tab:hover {
+            background: var(--light-color);
+            color: var(--dark-color);
+        }
+
+        .calc-tab.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .calc-form {
+            display: grid;
+            gap: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-weight: 500;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .input-group input, .input-group select {
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .calc-result {
+            background: var(--primary-light);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* Right Sidebar - Resources */
+        .resources-sidebar {
+            position: sticky;
+            top: 100px;
+        }
+
+        .resource-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .resource-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .resource-header i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .resource-header h4 {
+            color: var(--dark-color);
+            font-size: 1.1rem;
+        }
+
+        .resource-list {
+            list-style: none;
+        }
+
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .resource-item:last-child {
+            border-bottom: none;
+        }
+
+        .resource-item:hover {
+            transform: translateX(5px);
+            color: var(--primary-color);
+        }
+
+        .resource-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--light-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+
+        .loan-calculator {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+        }
+
+        .loan-calculator .resource-header i,
+        .loan-calculator .resource-header h4 {
+            color: white;
+        }
+
+        .loan-inputs {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .loan-result {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .loan-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        /* Voice Assistant Modal */
+        .voice-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .voice-modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            text-align: center;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .voice-visualizer {
+            width: 100%;
+            height: 100px;
+            background: var(--light-color);
+            border-radius: 10px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .voice-bar {
+            width: 4px;
+            height: 20px;
+            background: var(--primary-color);
+            margin: 0 2px;
+            border-radius: 2px;
+            animation: voicePulse 1s infinite;
+        }
+
+        @keyframes voicePulse {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(2); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .business-main {
+                grid-template-columns: 250px 1fr;
+            }
+            .resources-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .business-main {
+                grid-template-columns: 1fr;
+            }
+            .planning-steps-sidebar {
+                display: none;
+            }
+            .schemes-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .business-main {
+                padding: 20px 15px;
+                margin-top: 70px;
+            }
+            .ai-assistant-section,
+            .idea-generator,
+            .schemes-section,
+            .calculator-section {
+                padding: 20px;
+            }
+            .assistant-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .input-area {
+                flex-direction: column;
+            }
+            .voice-controls {
+                flex-wrap: wrap;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            position: relative;
+            color: transparent !important;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid white;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--light-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="business-nav">
+        <div class="nav-container">
+            <div class="nav-content">
+                <a href="index.html" class="nav-logo">
+                    <i class="fas fa-seedling"></i>
+                    <span>SmartFarm Business</span>
+                </a>
+                <div class="nav-links">
+                    <a href="#ai-assistant" class="nav-link active">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Assistant</span>
+                    </a>
+                    <a href="#idea-generator" class="nav-link">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>Idea Generator</span>
+                    </a>
+                    <a href="#schemes" class="nav-link">
+                        <i class="fas fa-landmark"></i>
+                        <span>Govt Schemes</span>
+                    </a>
+                    <a href="#calculator" class="nav-link">
+                        <i class="fas fa-calculator"></i>
+                        <span>Calculators</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="business-main">
+        <!-- Left Sidebar - Planning Steps -->
+        <div class="planning-steps-sidebar">
+            <div class="steps-header">
+                <i class="fas fa-map-signs"></i>
+                <h3>Business Planning Journey</h3>
+            </div>
+            <ul class="step-list">
+                <li class="step-item active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-info">
+                        <h4>Share Your Idea</h4>
+                        <p>Tell us your farming business concept</p>
+                    </div>
+                </li>
+                <li class="step-item" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-info">
+                        <h4>Market Analysis</h4>
+                        <p>Understand demand and competition</p>
+                    </div>
+                </li>
+                <li class="step-item" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-info">
+                        <h4>Financial Planning</h4>
+                        <p>Calculate costs and revenue</p>
+                    </div>
+                </li>
+                <li class="step-item" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-info">
+                        <h4>Resource Planning</h4>
+                        <p>Land, equipment, and labor needs</p>
+                    </div>
+                </li>
+                <li class="step-item" data-step="5">
+                    <div class="step-number">5</div>
+                    <div class="step-info">
+                        <h4>Funding Options</h4>
+                        <p>Explore loans and schemes</p>
+                    </div>
+                </li>
+                <li class="step-item" data-step="6">
+                    <div class="step-number">6</div>
+                    <div class="step-info">
+                        <h4>Implementation Plan</h4>
+                        <p>Create timeline and milestones</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- AI Assistant Section -->
+            <section id="ai-assistant" class="ai-assistant-section">
+                <div class="assistant-header">
+                    <div class="assistant-title">
+                        <div class="assistant-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div>
+                            <h2>SmartFarm AI Assistant</h2>
+                            <p>Get personalized business guidance step-by-step</p>
+                        </div>
+                    </div>
+                    <div class="voice-controls">
+                        <button class="voice-btn" id="startVoiceBtn">
+                            <i class="fas fa-microphone"></i>
+                            Start Voice
+                        </button>
+                        <button class="voice-btn" id="stopVoiceBtn">
+                            <i class="fas fa-microphone-slash"></i>
+                            Stop Voice
+                        </button>
+                    </div>
+                </div>
+
+                <div class="ai-conversation" id="conversation">
+                    <div class="message ai">
+                        <div class="message-content">
+                            Hello! I'm your SmartFarm AI Assistant. I'll help you plan your farming business step by step. What kind of farming business are you interested in starting?
+                        </div>
+                        <div class="message-time">Just now</div>
+                    </div>
+                </div>
+
+                <div class="input-area">
+                    <textarea class="message-input" id="messageInput" placeholder="Type your farming business idea or question here... (e.g., 'I want to start organic vegetable farming on 5 acres')"></textarea>
+                    <div class="input-buttons">
+                        <button class="btn btn-icon" id="sendMessageBtn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                        <button class="btn btn-secondary" id="clearChatBtn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="quick-suggestions">
+                    <p style="margin-bottom: 10px; color: var(--gray-color);">Try asking:</p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="suggestion-chip" data-suggestion="How to start dairy farming?">Dairy Farming</button>
+                        <button class="suggestion-chip" data-suggestion="Organic farming business plan">Organic Farming</button>
+                        <button class="suggestion-chip" data-suggestion="Hydroponic setup costs">Hydroponics</button>
+                        <button class="suggestion-chip" data-suggestion="Government loans for farmers">Govt Loans</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Business Idea Generator -->
+            <section id="idea-generator" class="idea-generator">
+                <div class="generator-header">
+                    <i class="fas fa-magic"></i>
+                    <h3>AI Business Idea Generator</h3>
+                </div>
+                
+                <div class="idea-formats">
+                    <div class="format-card active" data-format="traditional">
+                        <div class="format-icon">
+                            <i class="fas fa-tractor"></i>
+                        </div>
+                        <h4>Traditional Farming</h4>
+                        <p>Field crops, vegetables, fruits</p>
+                    </div>
+                    <div class="format-card" data-format="modern">
+                        <div class="format-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h4>Modern Farming</h4>
+                        <p>Hydroponics, vertical farming</p>
+                    </div>
+                    <div class="format-card" data-format="livestock">
+                        <div class="format-icon">
+                            <i class="fas fa-cow"></i>
+                        </div>
+                        <h4>Livestock</h4>
+                        <p>Dairy, poultry, fishery</p>
+                    </div>
+                    <div class="format-card" data-format="valueadded">
+                        <div class="format-icon">
+                            <i class="fas fa-industry"></i>
+                        </div>
+                        <h4>Value Addition</h4>
+                        <p>Processing, packaging</p>
+                    </div>
+                </div>
+
+                <textarea class="idea-input" id="ideaInput" placeholder="Describe your interest or constraints (e.g., 'I have 10 acres in Maharashtra, budget ₹5 lakh, interested in sustainable farming')"></textarea>
+                
+                <div style="display: flex; gap: 15px;">
+                    <button class="btn btn-primary" id="generateIdeaBtn">
+                        <i class="fas fa-bolt"></i>
+                        Generate Business Idea
+                    </button>
+                    <button class="btn btn-secondary" id="analyzeMarketBtn">
+                        <i class="fas fa-chart-line"></i>
+                        Analyze Market
+                    </button>
+                </div>
+
+                <div id="ideaResult" style="margin-top: 25px; display: none;">
+                    <div style="background: var(--light-color); padding: 25px; border-radius: 15px; border-left: 4px solid var(--primary-color);">
+                        <h4 style="color: var(--primary-dark); margin-bottom: 15px;">Generated Business Idea</h4>
+                        <div id="ideaContent"></div>
+                        <div style="display: flex; gap: 10px; margin-top: 20px;">
+                            <button class="btn btn-secondary btn-sm" id="saveIdeaBtn">
+                                <i class="fas fa-save"></i> Save Idea
+                            </button>
+                            <button class="btn btn-secondary btn-sm" id="shareIdeaBtn">
+                                <i class="fas fa-share"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Government Schemes Section -->
+            <section id="schemes" class="schemes-section">
+                <div class="section-header">
+                    <h3>
+                        <i class="fas fa-hand-holding-usd"></i>
+                        Government Schemes & Loans
+                    </h3>
+                    <select class="form-select" style="width: auto; padding: 8px 16px; border-radius: 8px;">
+                        <option>All States</option>
+                        <option>Maharashtra</option>
+                        <option>Punjab</option>
+                        <option>Uttar Pradesh</option>
+                    </select>
+                </div>
+
+                <div class="schemes-filters">
+                    <button class="filter-btn active">All Schemes</button>
+                    <button class="filter-btn">Subsidies</button>
+                    <button class="filter-btn">Loans</button>
+                    <button class="filter-btn">Training</button>
+                    <button class="filter-btn">Equipment</button>
+                </div>
+
+                <div class="schemes-grid" id="schemesGrid">
+                    <!-- Schemes will be loaded dynamically -->
+                </div>
+            </section>
+
+            <!-- Business Calculator Section -->
+            <section id="calculator" class="calculator-section">
+                <div class="section-header">
+                    <h3>
+                        <i class="fas fa-calculator"></i>
+                        Business Calculators
+                    </h3>
+                </div>
+
+                <div class="calculator-tabs">
+                    <button class="calc-tab active" data-calc="profit">Profit Calculator</button>
+                    <button class="calc-tab" data-calc="loan">Loan Calculator</button>
+                    <button class="calc-tab" data-calc="roi">ROI Calculator</button>
+                    <button class="calc-tab" data-calc="breakEven">Break-even</button>
+                </div>
+
+                <div class="calc-content" id="profitCalc" style="display: block;">
+                    <form class="calc-form">
+                        <div class="input-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="input-group">
+                                <label><i class="fas fa-map"></i> Farm Size (acres)</label>
+                                <input type="number" id="calcFarmSize" value="10" min="1">
+                            </div>
+                            <div class="input-group">
+                                <label><i class="fas fa-seedling"></i> Crop Type</label>
+                                <select id="calcCropType">
+                                    <option value="rice">Rice</option>
+                                    <option value="wheat">Wheat</option>
+                                    <option value="vegetables">Vegetables</option>
+                                    <option value="fruits">Fruits</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="input-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="input-group">
+                                <label><i class="fas fa-weight-hanging"></i> Expected Yield (kg/acre)</label>
+                                <input type="number" id="calcYield" value="2500" min="100">
+                            </div>
+                            <div class="input-group">
+                                <label><i class="fas fa-rupee-sign"></i> Market Price (₹/kg)</label>
+                                <input type="number" id="calcPrice" value="28" min="1" step="0.5">
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label><i class="fas fa-tools"></i> Production Cost (₹/acre)</label>
+                            <input type="number" id="calcCost" value="35000" min="1000">
+                        </div>
+
+                        <button type="button" class="btn btn-primary" id="calculateProfitBtn">
+                            <i class="fas fa-calculator"></i>
+                            Calculate Profit
+                        </button>
+                    </form>
+
+                    <div class="calc-result" id="profitResult" style="display: none;">
+                        <h4 style="margin-bottom: 15px; color: var(--primary-dark);">Profit Calculation Results</h4>
+                        <div class="result-item">
+                            <span>Total Production Cost:</span>
+                            <strong id="totalCost">₹0</strong>
+                        </div>
+                        <div class="result-item">
+                            <span>Total Revenue:</span>
+                            <strong id="totalRevenue">₹0</strong>
+                        </div>
+                        <div class="result-item">
+                            <span>Gross Profit:</span>
+                            <strong id="grossProfit">₹0</strong>
+                        </div>
+                        <div class="result-item">
+                            <span>Profit Margin:</span>
+                            <strong id="profitMargin">0%</strong>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Right Sidebar - Resources -->
+        <div class="resources-sidebar">
+            <!-- Quick Loan Calculator -->
+            <div class="resource-card loan-calculator">
+                <div class="resource-header">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    <h4>Quick Loan Calculator</h4>
+                </div>
+                <div class="loan-inputs">
+                    <div class="input-group">
+                        <label style="color: white;">Loan Amount (₹)</label>
+                        <input type="range" id="loanAmount" min="10000" max="10000000" value="500000" style="width: 100%;">
+                        <div style="display: flex; justify-content: space-between; color: white; font-size: 0.9rem;">
+                            <span>₹10K</span>
+                            <span id="loanAmountValue">₹5,00,000</span>
+                            <span>₹1Cr</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label style="color: white;">Interest Rate (%)</label>
+                        <select id="loanInterest" style="width: 100%; padding: 10px; border-radius: 8px;">
+                            <option value="7">7% (Kisan Credit Card)</option>
+                            <option value="8.5">8.5% (NABARD)</option>
+                            <option value="10">10% (Bank Loan)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label style="color: white;">Term (Years)</label>
+                        <select id="loanTerm" style="width: 100%; padding: 10px; border-radius: 8px;">
+                            <option value="1">1 Year</option>
+                            <option value="3">3 Years</option>
+                            <option value="5" selected>5 Years</option>
+                            <option value="7">7 Years</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="loan-result">
+                    <div style="font-size: 0.9rem; opacity: 0.9;">Monthly EMI</div>
+                    <div class="loan-amount" id="monthlyEmi">₹0</div>
+                    <div style="font-size: 0.9rem; opacity: 0.9;">Total Payable: <span id="totalPayable">₹0</span></div>
+                </div>
+            </div>
+
+            <!-- Quick Resources -->
+            <div class="resource-card">
+                <div class="resource-header">
+                    <i class="fas fa-book"></i>
+                    <h4>Quick Resources</h4>
+                </div>
+                <ul class="resource-list">
+                    <li class="resource-item">
+                        <div class="resource-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <span>Download Business Plan Template</span>
+                    </li>
+                    <li class="resource-item">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <span>Watch Farming Success Stories</span>
+                    </li>
+                    <li class="resource-item">
+                        <div class="resource-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <span>Market Price Trends</span>
+                    </li>
+                    <li class="resource-item">
+                        <div class="resource-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <span>Connect with Experts</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Recent Schemes -->
+            <div class="resource-card">
+                <div class="resource-header">
+                    <i class="fas fa-bullhorn"></i>
+                    <h4>Recent Schemes</h4>
+                </div>
+                <ul class="resource-list">
+                    <li class="resource-item">
+                        <div class="resource-icon">
+                            <i class="fas fa-tractor"></i>
+                        </div>
+                        <span>PM-KISAN Scheme</span>
+                    </li>
+                    <li class="resource-item">
+                        <div class="resource-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <span>Micro Irrigation Fund</span>
+                    </li>
+                    <li class="resource-item">
+                        <div class="resource-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <span>Organic Farming Scheme</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voice Assistant Modal -->
+    <div class="voice-modal" id="voiceModal">
+        <div class="voice-modal-content">
+            <div class="assistant-avatar" style="margin: 0 auto 20px;">
+                <i class="fas fa-microphone"></i>
+            </div>
+            <h3 style="margin-bottom: 10px;">Voice Assistant Active</h3>
+            <p style="color: var(--gray-color); margin-bottom: 20px;">Speak your farming business query now...</p>
+            
+            <div class="voice-visualizer" id="voiceVisualizer">
+                <!-- Voice bars will be generated here -->
+            </div>
+            
+            <div style="color: var(--primary-color); margin: 20px 0; font-weight: 500;" id="voiceStatus">
+                Listening...
+            </div>
+            
+            <button class="btn btn-secondary" id="closeVoiceModal">
+                <i class="fas fa-times"></i>
+                Close Voice Assistant
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ====================
+        // INITIALIZATION
+        // ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeBusinessPlanner();
+            loadGovernmentSchemes();
+            updateLoanCalculator();
+            setupEventListeners();
+        });
+
+        function initializeBusinessPlanner() {
+            // Initialize conversation
+            addAIMessage("Welcome to SmartFarm Business Planner! I'm here to guide you through starting your farming business. You can ask me about business ideas, funding, government schemes, or calculations. What would you like to start with?");
+            
+            // Set up voice visualizer
+            setupVoiceVisualizer();
+            
+            // Load saved ideas if any
+            loadSavedIdeas();
+        }
+
+        // ====================
+        // AI ASSISTANT FUNCTIONS
+        // ====================
+        const conversation = document.getElementById('conversation');
+        const messageInput = document.getElementById('messageInput');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const clearChatBtn = document.getElementById('clearChatBtn');
+
+        function addAIMessage(text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ai';
+            messageDiv.innerHTML = `
+                <div class="message-content">${text}</div>
+                <div class="message-time">${getCurrentTime()}</div>
+            `;
+            conversation.appendChild(messageDiv);
+            conversation.scrollTop = conversation.scrollHeight;
+        }
+
+        function addUserMessage(text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message user';
+            messageDiv.innerHTML = `
+                <div class="message-content">${text}</div>
+                <div class="message-time">${getCurrentTime()}</div>
+            `;
+            conversation.appendChild(messageDiv);
+            conversation.scrollTop = conversation.scrollHeight;
+        }
+
+        function getCurrentTime() {
+            const now = new Date();
+            return now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+
+        // ====================
+        // GEMINI AI INTEGRATION
+        // ====================
+        async function getAIResponse(userMessage) {
+            // In production, replace with actual Gemini API call
+            // For now, using a simulated response system
+            
+            const keywords = {
+                'dairy': 'Dairy farming requires proper infrastructure, breed selection, and market access. Initial investment ranges from ₹5-20 lakhs depending on herd size.',
+                'organic': 'Organic farming has 30% higher profit margins but requires certification. Government provides 50% subsidy on certification costs.',
+                'loan': 'Available loans: Kisan Credit Card (up to ₹3 lakhs at 7%), NABARD schemes (up to ₹50 lakhs), PMFBY for crop insurance.',
+                'scheme': 'Key schemes: PM-KISAN (₹6000/year), PMFBY (crop insurance), Soil Health Card, Micro Irrigation Fund.',
+                'profit': 'Profit depends on crop, scale, and market access. Average ROI for vegetable farming is 40-60% per season.',
+                'hydroponic': 'Hydroponics requires ₹5000-10000 per sq.m setup. Yields are 3-5x higher than traditional farming.',
+                'start': 'To start: 1) Land selection 2) Crop planning 3) Market research 4) Funding 5) Implementation. I can guide you through each step!',
+                'cost': 'Costs include land preparation (₹5000-15000/acre), seeds (₹2000-5000/acre), fertilizers (₹3000-8000/acre), labor (₹10000-25000/acre).',
+                'market': 'Market analysis includes demand study, competitor analysis, price trends, and distribution channels. I can help analyze your local market.'
+            };
+
+            // Check for keywords
+            let response = "I understand you're interested in farming business. ";
+            let matched = false;
+            
+            for (const [keyword, reply] of Object.entries(keywords)) {
+                if (userMessage.toLowerCase().includes(keyword.toLowerCase())) {
+                    response += reply + " ";
+                    matched = true;
+                }
+            }
+
+            if (!matched) {
+                response += "Based on your query, I recommend starting with market research and a detailed business plan. Would you like me to generate a business idea for you or help with funding options?";
+            }
+
+            response += "\n\nI can also: \n• Generate a business plan \n• Calculate projected profits \n• Find suitable government schemes \n• Help with loan applications";
+
+            // Simulate AI thinking
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            return response;
+        }
+
+        // ====================
+        // VOICE ASSISTANT FUNCTIONS
+        // ====================
+        const voiceModal = document.getElementById('voiceModal');
+        const startVoiceBtn = document.getElementById('startVoiceBtn');
+        const stopVoiceBtn = document.getElementById('stopVoiceBtn');
+        const closeVoiceModal = document.getElementById('closeVoiceModal');
+        const voiceVisualizer = document.getElementById('voiceVisualizer');
+        let isListening = false;
+        let recognition;
+
+        function setupVoiceVisualizer() {
+            for (let i = 0; i < 20; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'voice-bar';
+                bar.style.animationDelay = `${i * 0.05}s`;
+                voiceVisualizer.appendChild(bar);
+            }
+        }
+
+        function startVoiceRecognition() {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert('Speech recognition not supported in this browser. Please use Chrome.');
+                return;
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            
+            recognition.lang = 'en-IN';
+            recognition.continuous = true;
+            recognition.interimResults = true;
+
+            recognition.onstart = function() {
+                isListening = true;
+                voiceModal.style.display = 'flex';
+                startVoiceBtn.classList.add('active');
+                document.getElementById('voiceStatus').textContent = 'Listening... Speak your query';
+            };
+
+            recognition.onresult = function(event) {
+                let transcript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    transcript += event.results[i][0].transcript;
+                }
+                
+                if (event.results[event.results.length - 1].isFinal) {
+                    messageInput.value = transcript;
+                    addUserMessage(transcript);
+                    processUserMessage(transcript);
+                }
+            };
+
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error:', event.error);
+                if (event.error === 'no-speech') {
+                    document.getElementById('voiceStatus').textContent = 'No speech detected. Try again.';
+                }
+            };
+
+            recognition.onend = function() {
+                isListening = false;
+                startVoiceBtn.classList.remove('active');
+                document.getElementById('voiceStatus').textContent = 'Click to start speaking';
+            };
+
+            recognition.start();
+        }
+
+        function stopVoiceRecognition() {
+            if (recognition) {
+                recognition.stop();
+                isListening = false;
+                voiceModal.style.display = 'none';
+                startVoiceBtn.classList.remove('active');
+            }
+        }
+
+        // ====================
+        // BUSINESS IDEA GENERATOR
+        // ====================
+        const generateIdeaBtn = document.getElementById('generateIdeaBtn');
+        const analyzeMarketBtn = document.getElementById('analyzeMarketBtn');
+        const ideaResult = document.getElementById('ideaResult');
+        const ideaContent = document.getElementById('ideaContent');
+
+        async function generateBusinessIdea() {
+            const format = document.querySelector('.format-card.active').dataset.format;
+            const description = document.getElementById('ideaInput').value;
+            
+            if (!description.trim()) {
+                alert('Please describe your interests or constraints');
+                return;
+            }
+
+            generateIdeaBtn.innerHTML = '';
+            generateIdeaBtn.classList.add('loading');
+            generateIdeaBtn.disabled = true;
+
+            // Simulate AI processing
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            const ideas = {
+                traditional: `
+                    <h5>🌱 Traditional Farming Business Plan</h5>
+                    <p><strong>Recommended Crop:</strong> Organic Vegetables (Tomato, Capsicum, Cucumber)</p>
+                    <p><strong>Investment Required:</strong> ₹3-5 lakhs for 5 acres</p>
+                    <p><strong>Expected Revenue:</strong> ₹8-12 lakhs per year</p>
+                    <p><strong>Key Steps:</strong></p>
+                    <ol style="margin-left: 20px; margin-top: 10px;">
+                        <li>Soil testing and preparation</li>
+                        <li>Drip irrigation setup (50% subsidy available)</li>
+                        <li>Organic certification process</li>
+                        <li>Direct farm-to-consumer marketing</li>
+                    </ol>
+                    <p><strong>Government Support:</strong> Eligible for PM-KISAN, Paramparagat Krishi Vikas Yojana</p>
+                `,
+                modern: `
+                    <h5>🤖 Modern Hydroponic Farming</h5>
+                    <p><strong>Setup:</strong> 1000 sq.ft. Hydroponic Greenhouse</p>
+                    <p><strong>Initial Investment:</strong> ₹8-12 lakhs</p>
+                    <p><strong>Annual Revenue:</strong> ₹15-20 lakhs</p>
+                    <p><strong>Crops:</strong> Lettuce, Basil, Strawberries (high-value)</p>
+                    <p><strong>Advantages:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>90% less water usage</li>
+                        <li>Year-round production</li>
+                        <li>No soil-borne diseases</li>
+                        <li>Higher yield per sq.ft.</li>
+                    </ul>
+                `,
+                livestock: `
+                    <h5>🐄 Dairy Farming Business</h5>
+                    <p><strong>Scale:</strong> 10 cows + 1 bull</p>
+                    <p><strong>Investment:</strong> ₹15-20 lakhs</p>
+                    <p><strong>Monthly Revenue:</strong> ₹1.5-2 lakhs from milk</p>
+                    <p><strong>Breeds Recommended:</strong> Holstein Friesian, Jersey</p>
+                    <p><strong>Infrastructure Needed:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Shelter with proper ventilation</li>
+                        <li>Milking machine (subsidy available)</li>
+                        <li>Fodder storage</li>
+                        <li>Waste management system</li>
+                    </ul>
+                `,
+                valueadded: `
+                    <h5>🏭 Value-Added Food Processing</h5>
+                    <p><strong>Business:</strong> Tomato Processing Unit</p>
+                    <p><strong>Investment:</strong> ₹25-30 lakhs</p>
+                    <p><strong>Products:</strong> Tomato puree, ketchup, sauce</p>
+                    <p><strong>Market:</strong> Local restaurants, supermarkets, online</p>
+                    <p><strong>Key Requirements:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>FSSAI license</li>
+                        <li>Processing machinery</li>
+                        <li>Packaging equipment</li>
+                        <li>Cold storage facility</li>
+                    </ul>
+                `
+            };
+
+            ideaContent.innerHTML = ideas[format] || ideas.traditional;
+            ideaResult.style.display = 'block';
+
+            generateIdeaBtn.innerHTML = '<i class="fas fa-bolt"></i> Generate Business Idea';
+            generateIdeaBtn.classList.remove('loading');
+            generateIdeaBtn.disabled = false;
+
+            // Scroll to result
+            ideaResult.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ====================
+        // GOVERNMENT SCHEMES
+        // ====================
+        async function loadGovernmentSchemes() {
+            const schemes = [
+                {
+                    id: 1,
+                    name: "PM-KISAN Scheme",
+                    category: "subsidy",
+                    amount: "₹6,000/year",
+                    eligibility: "All farmer families",
+                    description: "Income support of ₹6000 per year in three equal installments",
+                    deadline: "Ongoing"
+                },
+                {
+                    id: 2,
+                    name: "Kisan Credit Card",
+                    category: "loan",
+                    amount: "Up to ₹3 lakhs",
+                    eligibility: "Farmers, sharecroppers",
+                    description: "Credit for cultivation needs at 7% interest",
+                    deadline: "Ongoing"
+                },
+                {
+                    id: 3,
+                    name: "PMFBY - Crop Insurance",
+                    category: "insurance",
+                    amount: "Premium from 1.5-5%",
+                    eligibility: "All farmers",
+                    description: "Comprehensive crop insurance against natural calamities",
+                    deadline: "Seasonal"
+                },
+                {
+                    id: 4,
+                    name: "Micro Irrigation Fund",
+                    category: "subsidy",
+                    amount: "55% subsidy",
+                    eligibility: "Individual & group farmers",
+                    description: "For drip and sprinkler irrigation systems",
+                    deadline: "31st March 2024"
+                },
+                {
+                    id: 5,
+                    name: "NABARD Dairy Entrepreneurship",
+                    category: "loan",
+                    amount: "Up to ₹25 lakhs",
+                    eligibility: "Individuals & SHGs",
+                    description: "For dairy farming infrastructure and equipment",
+                    deadline: "Ongoing"
+                },
+                {
+                    id: 6,
+                    name: "Organic Farming Certification",
+                    category: "subsidy",
+                    amount: "50% cost reimbursement",
+                    eligibility: "Organic farmers",
+                    description: "Support for organic certification costs",
+                    deadline: "Ongoing"
+                }
+            ];
+
+            const schemesGrid = document.getElementById('schemesGrid');
+            schemesGrid.innerHTML = '';
+
+            schemes.forEach(scheme => {
+                const schemeCard = document.createElement('div');
+                schemeCard.className = 'scheme-card';
+                schemeCard.innerHTML = `
+                    <div class="scheme-header">
+                        <h4>${scheme.name}</h4>
+                        <div class="scheme-category">${scheme.category.toUpperCase()}</div>
+                    </div>
+                    <div class="scheme-body">
+                        <div class="scheme-info">
+                            <span>Amount:</span>
+                            <strong>${scheme.amount}</strong>
+                        </div>
+                        <div class="scheme-info">
+                            <span>Eligibility:</span>
+                            <strong>${scheme.eligibility}</strong>
+                        </div>
+                        <div class="scheme-info">
+                            <span>Deadline:</span>
+                            <strong>${scheme.deadline}</strong>
+                        </div>
+                        <p class="scheme-desc">${scheme.description}</p>
+                        <button class="btn btn-primary" onclick="applyForScheme(${scheme.id})" style="width: 100%;">
+                            <i class="fas fa-edit"></i> Apply Now
+                        </button>
+                    </div>
+                `;
+                schemesGrid.appendChild(schemeCard);
+            });
+        }
+
+        // ====================
+        // CALCULATOR FUNCTIONS
+        // ====================
+        const calculateProfitBtn = document.getElementById('calculateProfitBtn');
+        const profitResult = document.getElementById('profitResult');
+
+        function calculateProfit() {
+            const farmSize = parseFloat(document.getElementById('calcFarmSize').value);
+            const yieldPerAcre = parseFloat(document.getElementById('calcYield').value);
+            const pricePerKg = parseFloat(document.getElementById('calcPrice').value);
+            const costPerAcre = parseFloat(document.getElementById('calcCost').value);
+
+            const totalCost = farmSize * costPerAcre;
+            const totalYield = farmSize * yieldPerAcre;
+            const totalRevenue = totalYield * pricePerKg;
+            const grossProfit = totalRevenue - totalCost;
+            const profitMargin = totalRevenue > 0 ? ((grossProfit / totalRevenue) * 100).toFixed(1) : 0;
+
+            document.getElementById('totalCost').textContent = `₹${formatNumber(totalCost.toFixed(0))}`;
+            document.getElementById('totalRevenue').textContent = `₹${formatNumber(totalRevenue.toFixed(0))}`;
+            document.getElementById('grossProfit').textContent = `₹${formatNumber(grossProfit.toFixed(0))}`;
+            document.getElementById('profitMargin').textContent = `${profitMargin}%`;
+
+            profitResult.style.display = 'block';
+        }
+
+        // ====================
+        // LOAN CALCULATOR
+        // ====================
+        function updateLoanCalculator() {
+            const loanAmount = parseFloat(document.getElementById('loanAmount').value);
+            const interestRate = parseFloat(document.getElementById('loanInterest').value);
+            const termYears = parseFloat(document.getElementById('loanTerm').value);
+
+            document.getElementById('loanAmountValue').textContent = `₹${formatNumber(loanAmount)}`;
+
+            // Calculate EMI
+            const monthlyInterest = interestRate / 12 / 100;
+            const numberOfPayments = termYears * 12;
+            
+            const emi = loanAmount * monthlyInterest * 
+                       Math.pow(1 + monthlyInterest, numberOfPayments) / 
+                       (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
+            
+            const totalPayable = emi * numberOfPayments;
+
+            document.getElementById('monthlyEmi').textContent = `₹${Math.round(emi).toLocaleString()}`;
+            document.getElementById('totalPayable').textContent = `₹${formatNumber(Math.round(totalPayable))}`;
+        }
+
+        // ====================
+        // EVENT LISTENERS SETUP
+        // ====================
+        function setupEventListeners() {
+            // AI Chat
+            sendMessageBtn.addEventListener('click', async () => {
+                const message = messageInput.value.trim();
+                if (!message) return;
+                
+                addUserMessage(message);
+                messageInput.value = '';
+                
+                // Get AI response
+                const response = await getAIResponse(message);
+                addAIMessage(response);
+            });
+
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessageBtn.click();
+                }
+            });
+
+            clearChatBtn.addEventListener('click', () => {
+                conversation.innerHTML = '';
+                addAIMessage("Chat cleared! How can I help you with your farming business today?");
+            });
+
+            // Voice Assistant
+            startVoiceBtn.addEventListener('click', startVoiceRecognition);
+            stopVoiceBtn.addEventListener('click', stopVoiceRecognition);
+            closeVoiceModal.addEventListener('click', () => {
+                voiceModal.style.display = 'none';
+                stopVoiceRecognition();
+            });
+
+            // Quick suggestions
+            document.querySelectorAll('.suggestion-chip').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const suggestion = btn.dataset.suggestion;
+                    messageInput.value = suggestion;
+                    addUserMessage(suggestion);
+                    const response = await getAIResponse(suggestion);
+                    addAIMessage(response);
+                });
+            });
+
+            // Business Idea Generator
+            generateIdeaBtn.addEventListener('click', generateBusinessIdea);
+            analyzeMarketBtn.addEventListener('click', async () => {
+                addAIMessage("I'll analyze the market for your business idea. This includes demand analysis, competitor study, and price trends. Give me a moment...");
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                addAIMessage("Market analysis complete! Here's what I found:\n\n• Growing demand for organic produce (15% annual growth)\n• Online vegetable sales increased by 200% post-pandemic\n• Government promoting local food networks\n• Export opportunities for certified organic products");
+            });
+
+            // Format cards
+            document.querySelectorAll('.format-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    document.querySelectorAll('.format-card').forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                });
+            });
+
+            // Loan calculator updates
+            document.getElementById('loanAmount').addEventListener('input', updateLoanCalculator);
+            document.getElementById('loanInterest').addEventListener('change', updateLoanCalculator);
+            document.getElementById('loanTerm').addEventListener('change', updateLoanCalculator);
+
+            // Profit calculator
+            calculateProfitBtn.addEventListener('click', calculateProfit);
+
+            // Navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Update active nav
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+
+            // Steps
+            document.querySelectorAll('.step-item').forEach(step => {
+                step.addEventListener('click', () => {
+                    const stepNumber = step.dataset.step;
+                    document.querySelectorAll('.step-item').forEach(s => {
+                        s.classList.remove('active');
+                        if (parseInt(s.dataset.step) < parseInt(stepNumber)) {
+                            s.classList.add('completed');
+                        }
+                    });
+                    step.classList.add('active');
+                    
+                    // Navigate to relevant section based on step
+                    const sections = ['ai-assistant', 'idea-generator', '', 'calculator', 'schemes', ''];
+                    if (sections[stepNumber - 1]) {
+                        document.getElementById(sections[stepNumber - 1]).scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Calculator tabs
+            document.querySelectorAll('.calc-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.calc-content').forEach(c => c.style.display = 'none');
+                    
+                    tab.classList.add('active');
+                    const calcType = tab.dataset.calc;
+                    document.getElementById(calcType + 'Calc').style.display = 'block';
+                });
+            });
+        }
+
+        // ====================
+        // HELPER FUNCTIONS
+        // ====================
+        function formatNumber(num) {
+            return new Intl.NumberFormat('en-IN').format(num);
+        }
+
+        function applyForScheme(schemeId) {
+            alert(`Application for Scheme #${schemeId} started! I'll guide you through the application process.`);
+            addAIMessage(`I see you're interested in applying for a government scheme. Let me help you with the application process. First, I need some details about your farm...`);
+        }
+
+        function processUserMessage(message) {
+            // Process user message and trigger appropriate actions
+            if (message.toLowerCase().includes('calculate') || message.toLowerCase().includes('profit')) {
+                document.getElementById('calculator').scrollIntoView({ behavior: 'smooth' });
+                addAIMessage("I've opened the profit calculator for you. You can enter your farm details to calculate projected profits.");
+            } else if (message.toLowerCase().includes('scheme') || message.toLowerCase().includes('loan')) {
+                document.getElementById('schemes').scrollIntoView({ behavior: 'smooth' });
+                addAIMessage("Here are the available government schemes and loans. Click on 'Apply Now' for any scheme you're interested in.");
+            } else if (message.toLowerCase().includes('idea') || message.toLowerCase().includes('business')) {
+                document.getElementById('idea-generator').scrollIntoView({ behavior: 'smooth' });
+                addAIMessage("You can use our business idea generator to explore different farming business opportunities based on your interests and constraints.");
+            }
+        }
+
+        // Initialize
+        initializeBusinessPlanner();
+    </script>
+
+    <!-- MURF AI Integration -->
+    <script>
+        // MURF AI Voice Integration
+        async function generateMurfVoice(text) {
+            // In production, this would call your PHP backend
+            console.log('Generating voice for:', text.substring(0, 50) + '...');
+            
+            // Simulate API call
+            try {
+                const response = await fetch('mur-voice-generator.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        voiceId: 'en-US-matthew',
+                        speed: 1.0
+                    })
+                });
+                
+                if (response.ok) {
+                    const audioBlob = await response.blob();
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    const audio = new Audio(audioUrl);
+                    audio.play();
+                    
+                    // Update UI to show voice is playing
+                    startVoiceBtn.innerHTML = '<i class="fas fa-volume-up"></i> Playing...';
+                    audio.onended = () => {
+                        startVoiceBtn.innerHTML = '<i class="fas fa-microphone"></i> Start Voice';
+                    };
+                }
+            } catch (error) {
+                console.error('Error generating voice:', error);
+                // Fallback to browser TTS
+                speakText(text);
+            }
+        }
+
+        // Browser TTS fallback
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-IN';
+                utterance.rate = 1.0;
+                utterance.pitch = 1.0;
+                
+                speechSynthesis.speak(utterance);
+                
+                startVoiceBtn.innerHTML = '<i class="fas fa-volume-up"></i> Speaking...';
+                utterance.onend = () => {
+                    startVoiceBtn.innerHTML = '<i class="fas fa-microphone"></i> Start Voice';
+                };
+            } else {
+                alert('Text-to-speech not supported in this browser');
+            }
+        }
+
+        // Add voice response to AI messages
+        const originalAddAIMessage = window.addAIMessage;
+        window.addAIMessage = function(text) {
+            originalAddAIMessage(text);
+            
+            // Auto-play voice for important messages (optional)
+            if (text.length < 500 && !text.includes('Chat cleared')) {
+                // generateMurfVoice(text); // Uncomment to enable auto-voice
+            }
+        };
+    </script>
+</body>
+</html>

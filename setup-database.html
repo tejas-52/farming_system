@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Database - Smart Farming</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container" style="max-width: 800px; margin: 50px auto;">
+        <h1>Database Setup</h1>
+        
+        <div class="setup-steps">
+            <div class="step">
+                <h3>Step 1: Start XAMPP</h3>
+                <p>Open XAMPP Control Panel and start Apache and MySQL</p>
+            </div>
+            
+            <div class="step">
+                <h3>Step 2: Create Database</h3>
+                <p>Open phpMyAdmin (http://localhost/phpmyadmin)</p>
+                <p>Login with username: <code>root</code> and empty password</p>
+                <p>Create a new database named: <code>smart_farming</code></p>
+            </div>
+            
+            <div class="step">
+                <h3>Step 3: Import SQL (Optional)</h3>
+                <p>Run this SQL in phpMyAdmin:</p>
+                <pre>
+CREATE DATABASE smart_farming;
+USE smart_farming;
+
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    full_name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    phone VARCHAR(20),
+    password VARCHAR(255),
+    role VARCHAR(50) DEFAULT 'farmer',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE farms (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    name VARCHAR(100),
+    location VARCHAR(255),
+    size DECIMAL(10,2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+                </pre>
+            </div>
+            
+            <div class="step">
+                <h3>Step 4: Test Connection</h3>
+                <button onclick="testConnection()" class="btn btn-primary">Test Database Connection</button>
+                <div id="testResult" style="margin-top: 20px;"></div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <a href="dashboard.php" class="btn btn-success">Go to Dashboard</a>
+            <a href="index.html" class="btn btn-outline">Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        function testConnection() {
+            const resultDiv = document.getElementById('testResult');
+            resultDiv.innerHTML = '<p>Testing connection...</p>';
+            
+            fetch('test-connection.php')
+                .then(response => response.text())
+                .then(data => {
+                    resultDiv.innerHTML = data;
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = '<p style="color: red;">Error: ' + error + '</p>';
+                });
+        }
+    </script>
+</body>
+</html>
