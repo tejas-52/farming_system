@@ -5,6 +5,12 @@
 Built for **Techfest 2025-26 – Murf Voice Agent Hackathon**
 **Built using Murf Falcon – the consistently fastest TTS API.**
 
+---
+
+## 🎥 Demo Video
+
+🔗 **Watch the working demo:**
+https://youtu.be/-n4GwpPkfb8
 
 ---
 
@@ -60,12 +66,7 @@ Real-Time Audio Response to User
 
 ---
 
-## 🎥 Demo Video
 
-🔗 **Watch the working demo:**
-[https://youtu.be/-n4GwpPkfb8](https://youtu.be/-n4GwpPkfb8) *(replace if updated)*
-
----
 
 ## 💻 GitHub Repository Instructions
 
@@ -180,6 +181,7 @@ Please **Star** ⭐ the repository and support by sharing!
 ### **Built using Murf Falcon – the consistently fastest TTS API.** 🚀
 
 ---
+
 
 
 
