@@ -2,7 +2,7 @@
 
 
 <?php
-$apiKey = "REMOVED_KEY";
+$apiKey = getenv("GEMINI_KEY");
 $userMsg = $_POST["msg"];
 
 $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" . $apiKey;

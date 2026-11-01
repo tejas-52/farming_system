@@ -38,7 +38,7 @@ if (empty($message)) {
 }
 
 // आपकी API Key (आपने पहले दी थी)
-define("GEMINI_API_KEY", "REMOVED_KEY");
+define("GEMINI_API_KEY", getenv("GEMINI_KEY"));
 
 // History
 $historyText = "";

@@ -4,7 +4,7 @@
 // Get your FREE Murf.ai API key from: https://murf.ai/api
 // (Free plan gives 10 minutes/month — enough for testing & small sites)
 
-define("MURF_API_KEY", "REMOVED_KEY"); 
+define("MURF_API_KEY", getenv("MURF_API_KEY")); 
 
 // Security: Prevent direct access
 if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {

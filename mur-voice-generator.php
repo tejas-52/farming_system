@@ -22,7 +22,7 @@ $voiceId = $data['voiceId'] ?? 'en-US-matthew';
 $speed = $data['speed'] ?? 1.0;
 
 // Your MURF API Key (store this securely in environment variables in production)
-$apiKey = 'REMOVED_KEY';
+$apiKey = getenv("MURF_API_KEY");
 
 // Prepare MURF API request
 $murApiUrl = 'https://api.murf.ai/v1/speech/generate';
