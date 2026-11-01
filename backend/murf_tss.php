@@ -4,7 +4,7 @@ $post = json_decode(file_get_contents("php://input"), true);
 $text = $post["text"] ?? "टेस्ट";
 $voice = $post["voiceId"] ?? "Namrita";
 
-define("MURF_KEY", "ap2_44f29c64-ff19-429b-aafe-fcc53eda9d40");  // तुम्हारी Murf key
+define("MURF_KEY", getenv("MURF_API_KEY"));  // तुम्हारी Murf key
 
 $payload = ["voiceId"=>$voice, "text"=>$text, "model"=>"Falcon", "style"=>"Conversational", "format"=>"MP3", "sampleRate"=>24000];
 $ch = curl_init("https://global.api.murf.ai/v1/speech/stream");
