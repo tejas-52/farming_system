@@ -1,7 +1,7 @@
 // Weather Page JavaScript
 
 // OpenWeatherMap API Configuration
-const WEATHER_API_KEY = 'YOUR_OPENWEATHER_API_KEY'; // Replace with your API key
+const WEATHER_API_KEY = window.OPENWEATHER_API_KEY || ''; // Replace with your API key
 let currentLat = 19.0760; // Default: Mumbai
 let currentLon = 72.8777;
 let currentCity = 'Mumbai, IN';

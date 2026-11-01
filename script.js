@@ -323,7 +323,7 @@ function getCurrentPosition() {
 }
 
 async function fetchWeather(lat, lon) {
-    const apiKey = 'YOUR_API_KEY_HERE'; // Replace with your OpenWeather API key
+    const apiKey = window.OPENWEATHER_API_KEY || ''; // Replace with your OpenWeather API key
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
     
     try {
